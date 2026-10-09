@@ -8,11 +8,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         :root {
-            --bg: #0a0a0a;
-            --card: #141414;
-            --text: #ffffff;
-            --muted: #888888;
-            --border: #222222;
+            --bg: #ffffff;
+            --card: #f5f5f5;
+            --text: #000000;
+            --muted: #666666;
+            --border: #e0e0e0;
             --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
@@ -22,12 +22,9 @@
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             background: var(--bg);
@@ -37,16 +34,11 @@
             overflow-x: hidden;
         }
 
-        /* Grain effect */
         .grain {
             position: fixed;
-            top: -50%;
-            left: -50%;
-            right: -50%;
-            bottom: -50%;
-            width: 200%;
-            height: 200vh;
-            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAzIi8+PC9zdmc+') repeat;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            width: 200%; height: 200vh;
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAyIi8+PC9zdmc+') repeat;
             pointer-events: none;
             z-index: 9999;
             animation: grainShift 8s steps(10) infinite;
@@ -73,7 +65,6 @@
             z-index: 1;
         }
 
-        /* Header animations */
         header {
             text-align: center;
             padding: 80px 0 60px;
@@ -82,14 +73,8 @@
         }
 
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -97,10 +82,6 @@
             font-weight: 800;
             letter-spacing: -0.03em;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .sub {
@@ -113,9 +94,7 @@
             animation: fadeIn 1s var(--transition) 0.2s forwards;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { to { opacity: 1; } }
 
         .section-title {
             font-size: 0.85rem;
@@ -157,40 +136,24 @@
             overflow: hidden;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
         .card.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
         @media (hover: hover) {
-            .card:hover::before {
-                opacity: 1;
-            }
-            
             .card:hover {
-                border-color: #444;
+                border-color: #000;
                 transform: translateY(-4px);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             }
         }
 
         .card.active {
-            border-color: #fff;
-            background: #1a1a1a;
+            border-color: #000;
+            background: #fff;
             transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
         .card.active::after {
@@ -200,8 +163,8 @@
             right: 12px;
             width: 24px;
             height: 24px;
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -219,7 +182,6 @@
         .card-name {
             font-size: 1.1rem;
             font-weight: 600;
-            z-index: 1;
         }
 
         .card-price {
@@ -227,12 +189,11 @@
             font-weight: 300;
             color: var(--muted);
             white-space: nowrap;
-            z-index: 1;
             transition: color 0.3s ease;
         }
 
         .card.active .card-price {
-            color: #fff;
+            color: #000;
         }
 
         .note {
@@ -250,90 +211,44 @@
             transform: translateY(0);
         }
 
-        .form {
+        .order-section {
             margin-top: 60px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 40px;
+            text-align: center;
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s var(--transition);
         }
 
-        .form.visible {
+        .order-section.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .field { 
-            margin-bottom: 24px;
-            opacity: 0;
-            transform: translateX(-10px);
-            transition: all 0.5s var(--transition);
-        }
-
-        .form.visible .field {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .form.visible .field:nth-child(1) { transition-delay: 0.1s; }
-        .form.visible .field:nth-child(2) { transition-delay: 0.2s; }
-        .form.visible .field:nth-child(3) { transition-delay: 0.3s; }
-
-        label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
+        .selected-info {
+            font-size: 1.1rem;
             color: var(--muted);
-            margin-bottom: 10px;
-            font-weight: 500;
+            margin-bottom: 24px;
+            min-height: 24px;
         }
 
-        input, textarea {
-            width: 100%;
-            background: #0d0d0d;
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 16px;
-            font-family: inherit;
-            font-size: 1rem;
-            border-radius: 0;
-            appearance: none;
-            transition: all 0.3s var(--transition);
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #555;
-            background: #0f0f0f;
-            box-shadow: 0 0 0 4px rgba(255,255,255,0.05);
+        .selected-info.has-selection {
+            color: #000;
+            font-weight: 600;
         }
 
         .btn {
-            width: 100%;
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
             border: none;
-            padding: 20px;
+            padding: 20px 60px;
             font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             cursor: pointer;
             transition: all 0.3s var(--transition);
-            margin-top: 10px;
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(10px);
-        }
-
-        .form.visible .btn {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 0.4s;
         }
 
         .btn::before {
@@ -343,27 +258,31 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s ease;
         }
 
-        .btn:hover::before {
-            left: 100%;
-        }
+        .btn:hover::before { left: 100%; }
 
         .btn:hover {
-            background: #e0e0e0;
+            background: #222;
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .btn:active {
             transform: translateY(0) scale(0.98);
         }
 
-        .btn.loading {
-            pointer-events: none;
-            opacity: 0.7;
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn:disabled:hover {
+            background: #000;
+            box-shadow: none;
         }
 
         .toast {
@@ -371,8 +290,8 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px) scale(0.9);
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
             padding: 16px 32px;
             font-weight: 600;
             font-size: 0.95rem;
@@ -382,7 +301,7 @@
             z-index: 10000;
             pointer-events: none;
             white-space: nowrap;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         .toast.show {
@@ -399,18 +318,13 @@
             transition: opacity 1s var(--transition);
         }
 
-        footer.visible {
-            opacity: 1;
-        }
+        footer.visible { opacity: 1; }
 
-        /* Mobile animations */
         @media (max-width: 768px) {
             .container { padding: 30px 16px; }
             header { padding: 60px 0 40px; }
             .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
             .card { padding: 22px 18px; }
-            .form { padding: 28px; margin-top: 50px; }
-            .btn { padding: 18px; font-size: 0.95rem; }
         }
 
         @media (max-width: 480px) {
@@ -423,8 +337,7 @@
             .card-name { font-size: 1rem; }
             .card-price { font-size: 1.2rem; }
             .section-title { margin: 40px 0 16px; font-size: 0.75rem; }
-            .form { padding: 22px; margin-top: 40px; }
-            .btn { padding: 16px; font-size: 0.9rem; }
+            .btn { padding: 18px 40px; font-size: 0.95rem; }
             .toast { 
                 white-space: normal; 
                 text-align: center; 
@@ -441,11 +354,9 @@
             .grid { grid-template-columns: repeat(3, 1fr); }
         }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             * {
                 animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
         }
@@ -507,20 +418,9 @@
             • Две правки бесплатно
         </div>
 
-        <div class="form" id="form">
-            <div class="field">
-                <label>Услуга</label>
-                <input type="text" id="svc" readonly placeholder="Выбери карточку выше">
-            </div>
-            <div class="field">
-                <label>Имя / Ник</label>
-                <input type="text" id="name" placeholder="Как к тебе обращаться?" autocomplete="name">
-            </div>
-            <div class="field">
-                <label>Пожелания</label>
-                <textarea id="notes" rows="3" placeholder="Цвета, стиль, референсы..."></textarea>
-            </div>
-            <button class="btn" id="btn" onclick="send()">Заказать →</button>
+        <div class="order-section" id="orderSection">
+            <div class="selected-info" id="selectedInfo">Выбери услугу выше</div>
+            <button class="btn" id="orderBtn" disabled onclick="order()">Заказать</button>
         </div>
 
         <footer>
@@ -530,164 +430,82 @@
 
     </div>
 
-    <div class="toast" id="toast">Скопировано! Вставь в DM</div>
+    <div class="toast" id="toast">Открываю Instagram...</div>
 
     <script>
         let svc = '', price = 0;
-
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                     
-                    // Stagger cards
                     if (entry.target.hasAttribute('data-grid')) {
                         const cards = entry.target.querySelectorAll('.card');
                         cards.forEach((card, i) => {
-                            setTimeout(() => {
-                                card.classList.add('visible');
-                            }, i * 100);
+                            setTimeout(() => card.classList.add('visible'), i * 80);
                         });
                     }
                     
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        // Observe elements
         document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
         document.querySelectorAll('[data-grid]').forEach(el => observer.observe(el));
         
-        // Observe form and footer
         setTimeout(() => {
-            const form = document.getElementById('form');
+            const orderSection = document.getElementById('orderSection');
             const footer = document.querySelector('footer');
-            if (form) observer.observe(form);
+            if (orderSection) observer.observe(orderSection);
             if (footer) observer.observe(footer);
         }, 100);
 
         function pick(el, name, p) {
-            // Remove active from all cards
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            
-            // Add active to clicked
             el.classList.add('active');
-            
-            // Update state
             svc = name; 
             price = p;
             
-            // Update input with animation
-            const input = document.getElementById('svc');
-            input.style.transform = 'scale(0.95)';
-            input.style.opacity = '0';
-            setTimeout(() => {
-                input.value = `${name} — ${p} BYN`;
-                input.style.transform = 'scale(1)';
-                input.style.opacity = '1';
-            }, 150);
+            const info = document.getElementById('selectedInfo');
+            const btn = document.getElementById('orderBtn');
             
-            // Smooth scroll to form on mobile
-            if (window.innerWidth < 768) {
-                setTimeout(() => {
-                    document.getElementById('form').scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center' 
-                    });
-                }, 300);
-            }
+            info.textContent = `${name} — ${p} BYN`;
+            info.classList.add('has-selection');
+            btn.disabled = false;
         }
 
-        async function send() {
-            const nameInput = document.getElementById('name');
-            const notesInput = document.getElementById('notes');
-            const btn = document.getElementById('btn');
+        async function order() {
+            if (!svc) return;
+            
+            const btn = document.getElementById('orderBtn');
             const toast = document.getElementById('toast');
             
-            const n = nameInput.value.trim();
-            const nt = notesInput.value.trim();
+            btn.disabled = true;
+            btn.textContent = 'Загрузка...';
             
-            // Validation with shake animation
-            if (!svc) {
-                shakeElement(document.querySelector('[data-grid]'));
-                alert('Выбери услугу из списка выше');
-                return;
-            }
-            
-            if (!n) {
-                shakeElement(nameInput);
-                nameInput.focus();
-                return;
-            }
-
-            // Loading state
-            btn.classList.add('loading');
-            const originalText = btn.textContent;
-            btn.textContent = 'Отправка...';
-            
-            const msg = `Привет! 👋\n\nЗаказ:\n📌 ${svc} (${price} BYN)\n👤 ${n}\n ${nt || 'Нет'}\n\nЖду ответ!`;
+            const msg = `Привет! Хочу заказать: ${svc} (${price} BYN)`;
 
             try {
                 await navigator.clipboard.writeText(msg);
-                
-                // Show toast
                 toast.classList.add('show');
                 
-                // Open Instagram after delay
                 setTimeout(() => { 
                     window.open('https://ig.me/m/pika.rew', '_blank'); 
-                    toast.classList.remove('show');
-                    btn.classList.remove('loading');
-                    btn.textContent = originalText;
-                }, 1000);
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                        btn.disabled = false;
+                        btn.textContent = 'Заказать';
+                    }, 2000);
+                }, 600);
                 
-            } catch (err) {
-                // Fallback
+            } catch {
                 window.open('https://ig.me/m/pika.rew', '_blank');
-                btn.classList.remove('loading');
-                btn.textContent = originalText;
+                btn.disabled = false;
+                btn.textContent = 'Заказать';
             }
         }
-
-        function shakeElement(el) {
-            el.style.animation = 'none';
-            setTimeout(() => {
-                el.style.animation = 'shake 0.5s ease';
-                setTimeout(() => {
-                    el.style.animation = '';
-                }, 500);
-            }, 10);
-        }
-
-        // Add shake keyframes
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                20%, 60% { transform: translateX(-10px); }
-                40%, 80% { transform: translateX(10px); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Input focus effects
-        document.querySelectorAll('input, textarea').forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-                this.parentElement.style.transition = 'transform 0.3s ease';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-            });
-        });
     </script>
 </body>
 </html>
