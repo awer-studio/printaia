@@ -1,511 +1,1749 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PIKA.REW | Дизайн профиля</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIKA.REW — Дизайн профиля</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-        :root {
-            --bg: #ffffff;
-            --card: #f5f5f5;
-            --text: #000000;
-            --muted: #666666;
-            --border: #e0e0e0;
-            --transition: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+/* ========== RESET & BASE ========== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent;
-            -webkit-font-smoothing: antialiased;
-        }
+:root {
+  --white: #ffffff;
+  --black: #0a0a0a;
+  --gray-100: #f7f7f7;
+  --gray-200: #e8e8e8;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
+  --gray-600: #525252;
+  --gray-700: #404040;
+  --gray-800: #262626;
+  --gray-900: #171717;
+  --accent: #0a0a0a;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 
-        html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: auto;
+  overflow-x: hidden;
+}
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+  cursor: none;
+  line-height: 1.6;
+}
 
-        .grain {
-            position: fixed;
-            top: -50%; left: -50%; right: -50%; bottom: -50%;
-            width: 200%; height: 200vh;
-            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAyIi8+PC9zdmc+') repeat;
-            pointer-events: none;
-            z-index: 9999;
-            animation: grainShift 8s steps(10) infinite;
-        }
+/* ========== CUSTOM CURSOR ========== */
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--black);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.15s var(--ease-out-expo), 
+              width 0.3s var(--ease-out-expo), 
+              height 0.3s var(--ease-out-expo),
+              border-color 0.3s ease,
+              background 0.3s ease;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
 
-        @keyframes grainShift {
-            0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-5%, -10%); }
-            20% { transform: translate(-15%, 5%); }
-            30% { transform: translate(7%, -25%); }
-            40% { transform: translate(-5%, 25%); }
-            50% { transform: translate(-15%, 10%); }
-            60% { transform: translate(15%, 0%); }
-            70% { transform: translate(0%, 15%); }
-            80% { transform: translate(3%, 35%); }
-            90% { transform: translate(-10%, 10%); }
-        }
+.cursor.hover {
+  width: 60px;
+  height: 60px;
+  background: var(--black);
+  border-color: var(--white);
+}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
-        }
+.cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--black);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+}
 
-        header {
-            text-align: center;
-            padding: 80px 0 60px;
-            opacity: 0;
-            animation: fadeInDown 1s var(--transition) forwards;
-        }
+@media (max-width: 768px) {
+  .cursor, .cursor-dot { display: none; }
+  body { cursor: auto; }
+}
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* ========== PRELOADER ========== */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: transform 1.2s var(--ease-in-out-quart);
+}
 
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 8px;
-        }
+.preloader.done {
+  transform: translateY(-100%);
+}
 
-        .sub {
-            font-size: 1rem;
-            color: var(--muted);
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: fadeIn 1s var(--transition) 0.2s forwards;
-        }
+.preloader-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 8vw, 5rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  overflow: hidden;
+}
 
-        @keyframes fadeIn { to { opacity: 1; } }
+.preloader-text span {
+  display: inline-block;
+  transform: translateY(100%);
+  animation: revealText 0.8s var(--ease-out-expo) forwards;
+}
 
-        .section-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--muted);
-            margin: 60px 0 20px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.6s var(--transition);
-        }
+.preloader-text span:nth-child(2) { animation-delay: 0.1s; }
+.preloader-text span:nth-child(3) { animation-delay: 0.2s; }
+.preloader-text span:nth-child(4) { animation-delay: 0.3s; }
+.preloader-text span:nth-child(5) { animation-delay: 0.4s; }
+.preloader-text span:nth-child(6) { animation-delay: 0.5s; }
+.preloader-text span:nth-child(7) { animation-delay: 0.6s; }
+.preloader-text span:nth-child(8) { animation-delay: 0.7s; }
+.preloader-text span:nth-child(9) { animation-delay: 0.8s; }
 
-        .section-title.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
+@keyframes revealText {
+  to { transform: translateY(0); }
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
+.preloader-bar {
+  width: 200px;
+  height: 2px;
+  background: var(--gray-800);
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
 
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 28px 24px;
-            cursor: pointer;
-            transition: all 0.4s var(--transition);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(20px);
-            position: relative;
-            overflow: hidden;
-        }
+.preloader-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--white);
+  animation: loadBar 2s var(--ease-out-quart) forwards;
+}
 
-        .card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+@keyframes loadBar {
+  to { width: 100%; }
+}
 
-        @media (hover: hover) {
-            .card:hover {
-                border-color: #000;
-                transform: translateY(-4px);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            }
-        }
+/* ========== SCROLL PROGRESS ========== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--black);
+  z-index: 9999;
+  width: 0%;
+  transition: width 0.1s linear;
+}
 
-        .card.active {
-            border-color: #000;
-            background: #fff;
-            transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
+/* ========== NOISE OVERLAY ========== */
+.noise {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200vh;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.025;
+  animation: noiseShift 0.5s steps(8) infinite;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-        .card.active::after {
-            content: '✓';
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 24px;
-            height: 24px;
-            background: #000;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            animation: scaleIn 0.3s var(--transition);
-        }
+@keyframes noiseShift {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-2%, -2%); }
+  20% { transform: translate(2%, 2%); }
+  30% { transform: translate(-1%, 3%); }
+  40% { transform: translate(3%, -1%); }
+  50% { transform: translate(-3%, 1%); }
+  60% { transform: translate(1%, -3%); }
+  70% { transform: translate(-2%, 2%); }
+  80% { transform: translate(2%, -2%); }
+  90% { transform: translate(-1%, -1%); }
+  100% { transform: translate(0, 0); }
+}
 
-        @keyframes scaleIn {
-            from { transform: scale(0); }
-            to { transform: scale(1); }
-        }
+/* ========== FLOATING PARTICLES ========== */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
 
-        .card-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--gray-300);
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+  opacity: 0;
+}
 
-        .card-price {
-            font-size: 1.3rem;
-            font-weight: 300;
-            color: var(--muted);
-            white-space: nowrap;
-            transition: color 0.3s ease;
-        }
+@keyframes floatParticle {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% {
+    transform: translateY(-100px) rotate(720deg);
+    opacity: 0;
+  }
+}
 
-        .card.active .card-price {
-            color: #000;
-        }
+/* ========== MAIN CONTAINER ========== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 2;
+}
 
-        .note {
-            margin-top: 30px;
-            color: var(--muted);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.6s var(--transition) 0.2s;
-        }
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+}
 
-        .note.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* ========== HERO SECTION ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 0 80px;
+  position: relative;
+}
 
-        .order-section {
-            margin-top: 60px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s var(--transition);
-        }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border: 1px solid var(--gray-200);
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s var(--ease-out-expo) 2.2s forwards;
+  position: relative;
+  overflow: hidden;
+}
 
-        .order-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.hero-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.05), transparent);
+  animation: shimmer 3s ease infinite;
+}
 
-        .selected-info {
-            font-size: 1.1rem;
-            color: var(--muted);
-            margin-bottom: 24px;
-            min-height: 24px;
-        }
+@keyframes shimmer {
+  to { left: 100%; }
+}
 
-        .selected-info.has-selection {
-            color: #000;
-            font-weight: 600;
-        }
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
 
-        .btn {
-            background: #000;
-            color: #fff;
-            border: none;
-            padding: 20px 60px;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            cursor: pointer;
-            transition: all 0.3s var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
+.hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin-bottom: 24px;
+  position: relative;
+}
 
-        .btn:hover::before { left: 100%; }
+.hero-title .line {
+  display: block;
+  overflow: hidden;
+}
 
-        .btn:hover {
-            background: #222;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
+.hero-title .line span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: revealLine 1s var(--ease-out-expo) forwards;
+}
 
-        .btn:active {
-            transform: translateY(0) scale(0.98);
-        }
+.hero-title .line:nth-child(1) span { animation-delay: 2.3s; }
+.hero-title .line:nth-child(2) span { animation-delay: 2.4s; }
 
-        .btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            transform: none;
-        }
+@keyframes revealLine {
+  to { transform: translateY(0); }
+}
 
-        .btn:disabled:hover {
-            background: #000;
-            box-shadow: none;
-        }
+.hero-title .highlight {
+  position: relative;
+  display: inline-block;
+}
 
-        .toast {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px) scale(0.9);
-            background: #000;
-            color: #fff;
-            padding: 16px 32px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            border-radius: 50px;
-            opacity: 0;
-            transition: all 0.5s var(--transition);
-            z-index: 10000;
-            pointer-events: none;
-            white-space: nowrap;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
+.hero-title .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  width: 100%;
+  height: 12%;
+  background: var(--black);
+  opacity: 0.08;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underlineReveal 0.8s var(--ease-out-expo) 3s forwards;
+}
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0) scale(1);
-            opacity: 1;
-        }
+@keyframes underlineReveal {
+  to { transform: scaleX(1); }
+}
 
-        footer {
-            text-align: center;
-            padding: 60px 0 40px;
-            color: var(--muted);
-            font-size: 0.8rem;
-            opacity: 0;
-            transition: opacity 1s var(--transition);
-        }
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 300;
+  color: var(--gray-500);
+  letter-spacing: 0.02em;
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s var(--ease-out-expo) 2.6s forwards;
+}
 
-        footer.visible { opacity: 1; }
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 0.8s var(--ease-out-expo) 3s forwards;
+}
 
-        @media (max-width: 768px) {
-            .container { padding: 30px 16px; }
-            header { padding: 60px 0 40px; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .card { padding: 22px 18px; }
-        }
+.hero-scroll span {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
 
-        @media (max-width: 480px) {
-            .container { padding: 20px 14px; }
-            header { padding: 40px 0 30px; }
-            h1 { font-size: 2.2rem; }
-            .sub { font-size: 0.85rem; }
-            .grid { grid-template-columns: 1fr; gap: 10px; margin-top: 16px; }
-            .card { padding: 20px 18px; }
-            .card-name { font-size: 1rem; }
-            .card-price { font-size: 1.2rem; }
-            .section-title { margin: 40px 0 16px; font-size: 0.75rem; }
-            .btn { padding: 18px 40px; font-size: 0.95rem; }
-            .toast { 
-                white-space: normal; 
-                text-align: center; 
-                max-width: 85%; 
-                font-size: 0.85rem;
-                bottom: 20px;
-                padding: 14px 24px;
-            }
-            .note { font-size: 0.8rem; }
-        }
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: var(--gray-200);
+  position: relative;
+  overflow: hidden;
+}
 
-        @media (min-width: 1200px) {
-            .container { max-width: 1000px; }
-            .grid { grid-template-columns: repeat(3, 1fr); }
-        }
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+  animation: scrollDown 2s var(--ease-in-out-quart) infinite;
+}
 
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
+@keyframes scrollDown {
+  to { top: 100%; }
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== MARQUEE ========== */
+.marquee-section {
+  padding: 40px 0;
+  border-top: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+.marquee-item {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 0 40px;
+  color: var(--gray-300);
+  transition: color 0.3s ease;
+  user-select: none;
+}
+
+.marquee-item:hover {
+  color: var(--black);
+}
+
+.marquee-item .sep {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--gray-300);
+  border-radius: 50%;
+  margin: 0 40px;
+  vertical-align: middle;
+}
+
+/* ========== SECTION HEADER ========== */
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  padding-top: 120px;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--gray-400);
+}
+
+.section-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.section-heading .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.section-heading .word span {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 0.8s var(--ease-out-expo);
+}
+
+.section-heading .word span.visible {
+  transform: translateY(0);
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--gray-500);
+  max-width: 300px;
+  text-align: right;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 80px;
+    margin-bottom: 40px;
+  }
+  .section-desc {
+    text-align: left;
+    margin-top: 16px;
+  }
+}
+
+/* ========== PRICING GRID ========== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+/* ========== PRICE CARD ========== */
+.price-card {
+  position: relative;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  padding: 36px 28px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.5s var(--ease-out-expo);
+  transform: translateY(60px);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+}
+
+.price-card.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.price-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.price-card:hover {
+  border-color: var(--gray-300);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+}
+
+.price-card:hover::before {
+  opacity: 1;
+}
+
+.price-card:hover::after {
+  transform: scaleX(1);
+}
+
+.price-card.selected {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+}
+
+.price-card.selected::after {
+  background: var(--white);
+  transform: scaleX(1);
+}
+
+.price-card.selected .card-price {
+  color: var(--gray-400);
+}
+
+.price-card.selected .card-check {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.card-number {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--gray-400);
+  margin-bottom: 24px;
+  transition: color 0.3s ease;
+}
+
+.price-card.selected .card-number {
+  color: var(--gray-500);
+}
+
+.card-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.price-card.selected .card-desc {
+  color: var(--gray-400);
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  z-index: 1;
+}
+
+.card-price {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--black);
+  transition: color 0.3s ease;
+}
+
+.card-price .currency {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--gray-400);
+  margin-left: 4px;
+}
+
+.card-check {
+  width: 32px;
+  height: 32px;
+  background: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0) rotate(-180deg);
+  transition: all 0.5s var(--ease-spring);
+}
+
+.card-check svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--black);
+  stroke-width: 2.5;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Ripple effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.1);
+  transform: scale(0);
+  animation: rippleAnim 0.6s ease-out;
+  pointer-events: none;
+}
+
+.price-card.selected .ripple {
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes rippleAnim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ========== NOTES SECTION ========== */
+.notes-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 40px;
+  padding: 40px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .notes-section {
+    grid-template-columns: 1fr;
+    padding: 28px;
+  }
+}
+
+.note-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gray-200);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.6s var(--ease-out-expo);
+}
+
+.note-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.note-item:last-child {
+  border-bottom: none;
+}
+
+.note-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.note-item:hover .note-icon {
+  background: var(--black);
+  border-color: var(--black);
+  transform: rotate(10deg) scale(1.1);
+}
+
+.note-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.note-text span {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--gray-400);
+  margin-top: 2px;
+}
+
+/* ========== ORDER SECTION ========== */
+.order-section {
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+}
+
+.order-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, var(--gray-200), transparent);
+}
+
+.order-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s var(--ease-out-expo);
+}
+
+.order-label.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.order-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s var(--ease-out-expo) 0.1s;
+}
+
+.order-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.order-selected {
+  font-size: 1.1rem;
+  color: var(--gray-500);
+  margin-bottom: 40px;
+  min-height: 30px;
+  transition: all 0.5s var(--ease-out-expo);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.order-selected.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.order-selected.active {
+  color: var(--black);
+  font-weight: 600;
+}
+
+/* ========== MAGNETIC BUTTON ========== */
+.magnetic-wrap {
+  display: inline-block;
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s var(--ease-out-expo) 0.2s;
+}
+
+.magnetic-wrap.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.order-btn {
+  position: relative;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  padding: 24px 72px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s var(--ease-out-expo);
+  outline: none;
+}
+
+.order-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--white);
+  transform: translateY(100%);
+  transition: transform 0.5s var(--ease-out-expo);
+  z-index: 0;
+}
+
+.order-btn:hover::before {
+  transform: translateY(0);
+}
+
+.order-btn:hover {
+  color: var(--black);
+}
+
+.order-btn span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.order-btn .arrow {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.order-btn:hover .arrow {
+  transform: translateX(6px);
+}
+
+.order-btn:active {
+  transform: scale(0.97);
+}
+
+.order-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.order-btn:disabled::before {
+  display: none;
+}
+
+/* Button glow */
+.btn-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.magnetic-wrap:hover .btn-glow {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ========== TOAST ========== */
+.toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px) scale(0.9);
+  background: var(--black);
+  color: var(--white);
+  padding: 18px 36px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.6s var(--ease-spring);
+  z-index: 10000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: toastPop 0.5s var(--ease-spring);
+}
+
+@keyframes toastPop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.toast-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: white;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  padding: 60px 0;
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s var(--ease-out-expo);
+}
+
+.footer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer-left {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+}
+
+.footer-right {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-link {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.footer-link:hover {
+  color: var(--black);
+}
+
+.footer-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+
+/* ========== COUNTER ANIMATION ========== */
+.counter {
+  display: inline-block;
+}
+
+/* ========== MAGNETIC EFFECT AREA ========== */
+.magnetic-area {
+  display: inline-block;
+}
+
+/* ========== SMOOTH REVEAL ========== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s var(--ease-out-expo);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== SELECTION ========== */
+::selection {
+  background: var(--black);
+  color: var(--white);
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+/* ========== PAGE TRANSITION ========== */
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+  z-index: 99999;
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+</style>
 </head>
 <body>
 
-    <div class="grain"></div>
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-text">
+    <span>P</span><span>I</span><span>K</span><span>A</span><span>.</span><span>R</span><span>E</span><span>W</span>
+  </div>
+  <div class="preloader-bar">
+    <div class="preloader-bar-fill"></div>
+  </div>
+</div>
 
-    <div class="container">
-        
-        <header>
-            <h1>PIKA.REW</h1>
-            <div class="sub">Дизайн профиля</div>
-        </header>
+<!-- Noise -->
+<div class="noise"></div>
 
-        <div class="section-title" data-animate>Отдельные элементы</div>
-        <div class="grid" data-grid>
-            <div class="card" data-card onclick="pick(this, 'Аватарка', 15)">
-                <div class="card-name">Аватарка</div>
-                <div class="card-price">15 BYN</div>
-            </div>
-            <div class="card" data-card onclick="pick(this, 'Баннер', 12)">
-                <div class="card-name">Баннер</div>
-                <div class="card-price">12 BYN</div>
-            </div>
-            <div class="card" data-card onclick="pick(this, 'Обложка сторис', 10)">
-                <div class="card-name">Обложка сторис</div>
-                <div class="card-price">10 BYN</div>
-            </div>
-            <div class="card" data-card onclick="pick(this, 'Один пост', 20)">
-                <div class="card-name">Один пост</div>
-                <div class="card-price">20 BYN</div>
-            </div>
-            <div class="card" data-card onclick="pick(this, 'Пост-карусель', 85)">
-                <div class="card-name">Пост-карусель</div>
-                <div class="card-price">85 BYN</div>
-            </div>
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- Particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toast-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  </div>
+  <span id="toastText">Открываю Instagram...</span>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Принимаю заказы
+    </div>
+    <h1 class="hero-title">
+      <span class="line"><span>PIKA</span></span>
+      <span class="line"><span class="highlight">.REW</span></span>
+    </h1>
+    <p class="hero-subtitle">Дизайн профиля и страниц. Помогаю экспертам и брендам выглядеть дорого.</p>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Marquee -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Аватарки <span class="sep"></span> Баннеры <span class="sep"></span> Посты <span class="sep"></span> Карусели <span class="sep"></span> Сторис <span class="sep"></span> Пакеты <span class="sep"></span></span>
+    <span class="marquee-item">Аватарки <span class="sep"></span> Баннеры <span class="sep"></span> Посты <span class="sep"></span> Карусели <span class="sep"></span> Сторис <span class="sep"></span> Пакеты <span class="sep"></span></span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section: Отдельные элементы -->
+  <div class="section-header">
+    <div>
+      <div class="section-label">01 — Услуги</div>
+      <h2 class="section-heading" data-split>
+        <span class="word"><span>Отдельные</span></span>
+        <span class="word"><span>элементы</span></span>
+      </h2>
+    </div>
+    <p class="section-desc">Каждый элемент создаётся вручную с вниманием к деталям</p>
+  </div>
+
+  <div class="pricing-grid" id="grid1">
+    <div class="price-card" data-card onclick="pickCard(this, 'Аватарка', 15, event)">
+      <div>
+        <div class="card-number">01</div>
+        <div class="card-name">Аватарка</div>
+        <div class="card-desc">Уникальный дизайн для профиля</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="15">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
-
-        <div class="section-title" data-animate>Комплексные пакеты</div>
-        <div class="grid" data-grid>
-            <div class="card" data-card onclick="pick(this, 'Пакет СТАРТ', 35)">
-                <div class="card-name">Пакет СТАРТ</div>
-                <div class="card-price">35 BYN</div>
-            </div>
-            <div class="card" data-card onclick="pick(this, 'Пакет БИЗНЕС', 80)">
-                <div class="card-name">Пакет БИЗНЕС</div>
-                <div class="card-price">80 BYN</div>
-            </div>
-            <div class="card" data-card onclick="pick(this, 'Пакет ПОД КЛЮЧ', 180)">
-                <div class="card-name">Пакет ПОД КЛЮЧ</div>
-                <div class="card-price">180 BYN</div>
-            </div>
-        </div>
-
-        <div class="note" data-animate>
-            • Срочный заказ: +30%<br>
-            • Две правки бесплатно
-        </div>
-
-        <div class="order-section" id="orderSection">
-            <div class="selected-info" id="selectedInfo">Выбери услугу выше</div>
-            <button class="btn" id="orderBtn" disabled onclick="order()">Заказать</button>
-        </div>
-
-        <footer>
-            @pika.rew<br>
-            © 2026
-        </footer>
-
+      </div>
     </div>
 
-    <div class="toast" id="toast">Открываю Instagram...</div>
+    <div class="price-card" data-card onclick="pickCard(this, 'Баннер', 12, event)">
+      <div>
+        <div class="card-number">02</div>
+        <div class="card-name">Баннер</div>
+        <div class="card-desc">Оформление шапки профиля</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="12">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
 
-    <script>
-        let svc = '', price = 0;
+    <div class="price-card" data-card onclick="pickCard(this, 'Обложка сторис', 10, event)">
+      <div>
+        <div class="card-number">03</div>
+        <div class="card-name">Обложка сторис</div>
+        <div class="card-desc">Дизайн обложек для актуального</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="10">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    
-                    if (entry.target.hasAttribute('data-grid')) {
-                        const cards = entry.target.querySelectorAll('.card');
-                        cards.forEach((card, i) => {
-                            setTimeout(() => card.classList.add('visible'), i * 80);
-                        });
-                    }
-                    
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    <div class="price-card" data-card onclick="pickCard(this, 'Один пост', 20, event)">
+      <div>
+        <div class="card-number">04</div>
+        <div class="card-name">Один пост</div>
+        <div class="card-desc">Дизайн отдельной публикации</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="20">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
 
-        document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
-        document.querySelectorAll('[data-grid]').forEach(el => observer.observe(el));
-        
-        setTimeout(() => {
-            const orderSection = document.getElementById('orderSection');
-            const footer = document.querySelector('footer');
-            if (orderSection) observer.observe(orderSection);
-            if (footer) observer.observe(footer);
-        }, 100);
+    <div class="price-card" data-card onclick="pickCard(this, 'Пост-карусель', 85, event)">
+      <div>
+        <div class="card-number">05</div>
+        <div class="card-name">Пост-карусель</div>
+        <div class="card-desc">Многостраничный контент</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="85">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function pick(el, name, p) {
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            svc = name; 
-            price = p;
-            
-            const info = document.getElementById('selectedInfo');
-            const btn = document.getElementById('orderBtn');
-            
-            info.textContent = `${name} — ${p} BYN`;
-            info.classList.add('has-selection');
-            btn.disabled = false;
+  <!-- Section: Пакеты -->
+  <div class="section-header">
+    <div>
+      <div class="section-label">02 — Пакеты</div>
+      <h2 class="section-heading" data-split>
+        <span class="word"><span>Комплексные</span></span>
+        <span class="word"><span>решения</span></span>
+      </h2>
+    </div>
+    <p class="section-desc">Готовые пакеты для полного оформления профиля</p>
+  </div>
+
+  <div class="pricing-grid" id="grid2">
+    <div class="price-card" data-card onclick="pickCard(this, 'Пакет СТАРТ', 35, event)">
+      <div>
+        <div class="card-number">06</div>
+        <div class="card-name">Пакет СТАРТ</div>
+        <div class="card-desc">Базовое оформление профиля</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="35">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-card" data-card onclick="pickCard(this, 'Пакет БИЗНЕС', 80, event)">
+      <div>
+        <div class="card-number">07</div>
+        <div class="card-name">Пакет БИЗНЕС</div>
+        <div class="card-desc">Расширенное оформление + посты</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="80">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="price-card" data-card onclick="pickCard(this, 'Пакет ПОД КЛЮЧ', 180, event)">
+      <div>
+        <div class="card-number">08</div>
+        <div class="card-name">Пакет ПОД КЛЮЧ</div>
+        <div class="card-desc">Полное оформление под ключ</div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-price"><span class="counter" data-target="180">0</span><span class="currency">BYN</span></div>
+        <div class="card-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-section">
+    <div class="note-item">
+      <div class="note-icon">⚡</div>
+      <div class="note-text">Срочный заказ<span>+30% к стоимости</span></div>
+    </div>
+    <div class="note-item">
+      <div class="note-icon">✏️</div>
+      <div class="note-text">Правки<span>Две правки бесплатно</span></div>
+    </div>
+    <div class="note-item">
+      <div class="note-icon">🎨</div>
+      <div class="note-text">Уникальный дизайн<span>Каждый проект с нуля</span></div>
+    </div>
+    <div class="note-item">
+      <div class="note-icon">💬</div>
+      <div class="note-text">Поддержка<span>На связи в процессе</span></div>
+    </div>
+  </div>
+
+  <!-- Order Section -->
+  <div class="order-section">
+    <div class="order-label" id="orderLabel">Готов начать?</div>
+    <h2 class="order-title" id="orderTitle">Заказать дизайн</h2>
+    <div class="order-selected" id="orderSelected">Выбери услугу выше</div>
+    <div class="magnetic-wrap" id="magneticWrap">
+      <div class="btn-glow"></div>
+      <button class="order-btn" id="orderBtn" disabled>
+        <span>Заказать <span class="arrow">→</span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left">© 2026 PIKA.REW</div>
+    <div class="footer-right">
+      <a href="https://instagram.com/pika.rew" target="_blank" class="footer-link">Instagram</a>
+      <a href="https://ig.me/m/pika.rew" target="_blank" class="footer-link">Написать</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ========== PRELOADER ==========
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('done');
+    document.body.style.overflow = 'auto';
+  }, 2200);
+});
+
+// ========== CUSTOM CURSOR ==========
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursorDot');
+let mouseX = 0, mouseY = 0;
+let cursorX = 0, cursorY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorDot.style.left = mouseX + 'px';
+  cursorDot.style.top = mouseY + 'px';
+});
+
+function animateCursor() {
+  cursorX += (mouseX - cursorX) * 0.15;
+  cursorY += (mouseY - cursorY) * 0.15;
+  cursor.style.left = cursorX + 'px';
+  cursor.style.top = cursorY + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Cursor hover effects
+document.querySelectorAll('.price-card, .order-btn, .footer-link, .marquee-item').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
+
+// ========== SCROLL PROGRESS ==========
+window.addEventListener('scroll', () => {
+  const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('scrollProgress').style.width = scrolled + '%';
+});
+
+// ========== PARTICLES ==========
+const particlesContainer = document.getElementById('particles');
+for (let i = 0; i < 20; i++) {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = Math.random() * 100 + '%';
+  particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+  particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+  particle.style.animationDelay = (Math.random() * 10) + 's';
+  particlesContainer.appendChild(particle);
+}
+
+// ========== INTERSECTION OBSERVER ==========
+const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      
+      // Split text animation
+      if (entry.target.hasAttribute('data-split')) {
+        entry.target.querySelectorAll('.word span').forEach((span, i) => {
+          setTimeout(() => span.classList.add('visible'), i * 100);
+        });
+      }
+      
+      // Cards stagger
+      if (entry.target.classList.contains('pricing-grid')) {
+        const cards = entry.target.querySelectorAll('.price-card');
+        cards.forEach((card, i) => {
+          setTimeout(() => {
+            card.classList.add('visible');
+            // Counter animation
+            const counter = card.querySelector('.counter');
+            if (counter) animateCounter(counter);
+          }, i * 120);
+        });
+      }
+      
+      // Notes stagger
+      if (entry.target.classList.contains('notes-section')) {
+        const items = entry.target.querySelectorAll('.note-item');
+        items.forEach((item, i) => {
+          setTimeout(() => item.classList.add('visible'), i * 100);
+        });
+      }
+      
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Observe elements
+document.querySelectorAll('.section-heading[data-split], .pricing-grid, .notes-section, .order-label, .order-title, .order-selected, .magnetic-wrap, .footer').forEach(el => {
+  observer.observe(el);
+});
+
+// ========== COUNTER ANIMATION ==========
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1500;
+  const start = performance.now();
+  
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    el.textContent = Math.round(target * eased);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  
+  requestAnimationFrame(update);
+}
+
+// ========== CARD SELECTION ==========
+let selectedService = '';
+let selectedPrice = 0;
+
+function pickCard(el, name, price, event) {
+  // Ripple effect
+  const ripple = document.createElement('div');
+  ripple.className = 'ripple';
+  const rect = el.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (event.clientX - rect.left - size / 2) + 'px';
+  ripple.style.top = (event.clientY - rect.top - size / 2) + 'px';
+  el.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+  
+  // Deselect all
+  document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+  
+  // Select current
+  el.classList.add('selected');
+  selectedService = name;
+  selectedPrice = price;
+  
+  // Update order section
+  const selected = document.getElementById('orderSelected');
+  const btn = document.getElementById('orderBtn');
+  
+  selected.textContent = `${name} — ${price} BYN`;
+  selected.classList.add('active');
+  btn.disabled = false;
+  
+  // Smooth scroll to order
+  if (window.innerWidth < 768) {
+    setTimeout(() => {
+      document.querySelector('.order-section').scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+    }, 400);
+  }
+}
+
+// ========== MAGNETIC BUTTON ==========
+const magneticWrap = document.getElementById('magneticWrap');
+const orderBtn = document.getElementById('orderBtn');
+
+magneticWrap.addEventListener('mousemove', (e) => {
+  const rect = magneticWrap.getBoundingClientRect();
+  const x = e.clientX - rect.left - rect.width / 2;
+  const y = e.clientY - rect.top - rect.height / 2;
+  
+  orderBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+});
+
+magneticWrap.addEventListener('mouseleave', () => {
+  orderBtn.style.transform = 'translate(0, 0)';
+});
+
+// ========== ORDER ==========
+async function sendOrder() {
+  if (!selectedService) return;
+  
+  const btn = document.getElementById('orderBtn');
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toastText');
+  
+  btn.disabled = true;
+  btn.querySelector('span').innerHTML = 'Загрузка...';
+  
+  const msg = `Привет! 👋 Хочу заказать: ${selectedService} (${selectedPrice} BYN)`;
+  
+  try {
+    await navigator.clipboard.writeText(msg);
+    toastText.textContent = 'Скопировано! Открываю Instagram...';
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      window.open('https://ig.me/m/pika.rew', '_blank');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        btn.disabled = false;
+        btn.querySelector('span').innerHTML = 'Заказать <span class="arrow">→</span>';
+      }, 2500);
+    }, 800);
+  } catch {
+    window.open('https://ig.me/m/pika.rew', '_blank');
+    btn.disabled = false;
+    btn.querySelector('span').innerHTML = 'Заказать <span class="arrow">→</span>';
+  }
+}
+
+orderBtn.addEventListener('click', sendOrder);
+
+// ========== SMOOTH SCROLL ==========
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// ========== PARALLAX ON SCROLL ==========
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const scrolled = window.scrollY;
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+        hero.style.opacity = 1 - scrolled / 800;
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+// ========== TILT EFFECT ON CARDS ==========
+document.querySelectorAll('.price-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    
+    card.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg) translateY(-4px)`;
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    if (!card.classList.contains('selected')) {
+      card.style.transform = '';
+    } else {
+      card.style.transform = 'translateY(-4px) scale(1.02)';
+    }
+  });
+});
+
+// ========== TEXT SCRAMBLE EFFECT ==========
+class TextScramble {
+  constructor(el) {
+    this.el = el;
+    this.chars = '!<>-_\\/[]{}—=+*^?#________';
+    this.update = this.update.bind(this);
+  }
+  
+  setText(newText) {
+    const oldText = this.el.innerText;
+    const length = Math.max(oldText.length, newText.length);
+    const promise = new Promise(resolve => this.resolve = resolve);
+    this.queue = [];
+    for (let i = 0; i < length; i++) {
+      const from = oldText[i] || '';
+      const to = newText[i] || '';
+      const start = Math.floor(Math.random() * 40);
+      const end = start + Math.floor(Math.random() * 40);
+      this.queue.push({ from, to, start, end });
+    }
+    cancelAnimationFrame(this.frameRequest);
+    this.frame = 0;
+    this.update();
+    return promise;
+  }
+  
+  update() {
+    let output = '';
+    let complete = 0;
+    for (let i = 0, n = this.queue.length; i < n; i++) {
+      let { from, to, start, end, char } = this.queue[i];
+      if (this.frame >= end) {
+        complete++;
+        output += to;
+      } else if (this.frame >= start) {
+        if (!char || Math.random() < 0.28) {
+          char = this.chars[Math.floor(Math.random() * this.chars.length)];
+          this.queue[i].char = char;
         }
+        output += `<span style="color: var(--gray-400)">${char}</span>`;
+      } else {
+        output += from;
+      }
+    }
+    this.el.innerHTML = output;
+    if (complete === this.queue.length) {
+      this.resolve();
+    } else {
+      this.frameRequest = requestAnimationFrame(this.update);
+      this.frame++;
+    }
+  }
+}
 
-        async function order() {
-            if (!svc) return;
-            
-            const btn = document.getElementById('orderBtn');
-            const toast = document.getElementById('toast');
-            
-            btn.disabled = true;
-            btn.textContent = 'Загрузка...';
-            
-            const msg = `Привет! Хочу заказать: ${svc} (${price} BYN)`;
+// Apply scramble to section labels on hover
+document.querySelectorAll('.section-label').forEach(label => {
+  const fx = new TextScramble(label);
+  const originalText = label.textContent;
+  label.addEventListener('mouseenter', () => {
+    fx.setText(originalText);
+  });
+});
+</script>
 
-            try {
-                await navigator.clipboard.writeText(msg);
-                toast.classList.add('show');
-                
-                setTimeout(() => { 
-                    window.open('https://ig.me/m/pika.rew', '_blank'); 
-                    setTimeout(() => {
-                        toast.classList.remove('show');
-                        btn.disabled = false;
-                        btn.textContent = 'Заказать';
-                    }, 2000);
-                }, 600);
-                
-            } catch {
-                window.open('https://ig.me/m/pika.rew', '_blank');
-                btn.disabled = false;
-                btn.textContent = 'Заказать';
-            }
-        }
-    </script>
 </body>
 </html>
