@@ -8,11 +8,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
         :root {
-            --bg-color: #050505;
-            --card-bg: #111111;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --border: #222222;
+            --bg-color: #ffffff;
+            --card-bg: #f5f5f5;
+            --text-main: #000000;
+            --text-muted: #666666;
+            --border: #e0e0e0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -57,7 +57,7 @@
             position: fixed;
             top: -50%; left: -50%; right: -50%; bottom: -50%;
             width: 200%; height: 200vh;
-            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+') repeat;
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjAzIi8+PC9zdmc+') repeat;
             pointer-events: none;
             z-index: 9999;
             animation: grain 8s steps(10) infinite;
@@ -110,15 +110,16 @@
 
         @media (hover: hover) {
             .price-card:hover {
-                border-color: #444;
+                border-color: #000;
                 transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             }
         }
 
         .price-card.selected {
-            border-color: #fff;
-            background: #1a1a1a;
+            border-color: #000;
+            background: #ffffff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
         .service-name {
@@ -165,9 +166,9 @@
 
         input, textarea {
             width: 100%;
-            background: #0a0a0a;
+            background: #ffffff;
             border: 1px solid var(--border);
-            color: #fff;
+            color: #000;
             padding: 15px;
             font-family: inherit;
             font-size: 1rem;
@@ -178,13 +179,13 @@
 
         input:focus, textarea:focus {
             outline: none;
-            border-color: #666;
+            border-color: #000;
         }
 
         .btn-order {
             width: 100%;
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
             border: none;
             padding: 20px;
             font-size: 1.1rem;
@@ -197,12 +198,12 @@
         }
 
         .btn-order:hover {
-            background: #e0e0e0;
+            background: #222;
         }
 
         .btn-order:active {
             transform: scale(0.98);
-            background: #ddd;
+            background: #333;
         }
 
         .toast {
@@ -210,8 +211,8 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
             padding: 15px 30px;
             font-weight: 600;
             border-radius: 50px;
@@ -234,7 +235,6 @@
             font-size: 0.8rem;
         }
 
-        /* --- АДАПТИВНОСТЬ --- */
         @media (max-width: 768px) {
             .container { padding: 30px 16px; }
             header { padding: 60px 0 40px; }
@@ -389,7 +389,7 @@
                 return;
             }
 
-            const message = `Привет, Pika! 👋\n\nХочу заказать дизайн:\n ${currentService} (${currentPrice} BYN)\n👤 Имя: ${name}\n Пожелания: ${notes || 'Нет'}\n\nЖду обратной связи!`;
+            const message = `Привет, Pika! 👋\n\nХочу заказать дизайн:\n📌 ${currentService} (${currentPrice} BYN)\n👤 Имя: ${name}\n💬 Пожелания: ${notes || 'Нет'}\n\nЖду обратной связи!`;
 
             try {
                 await navigator.clipboard.writeText(message);
