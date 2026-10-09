@@ -2,495 +2,243 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIKA.REW — Design Studio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Важная строка для корректного отображения на мобильных -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PIKA.REW | Дизайн профиля</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* --- ШРИФТЫ И БАЗА --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
         :root {
-            --bg: #f5f3ee;
-            --text: #1a1a1a;
-            --muted: #888;
-            --border: #e0ddd5;
-            --ease: cubic-bezier(0.76, 0, 0.24, 1);
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --border: #222222;
         }
 
-        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-color);
+            color: var(--text-main);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            cursor: none;
+            line-height: 1.5;
+            min-height: 100vh;
         }
 
-        /* Кастомный курсор */
-        .cursor {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            background: var(--text);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.15s var(--ease-out), width 0.3s, height 0.3s, background 0.3s;
-            mix-blend-mode: difference;
+        /* --- АНИМАЦИИ --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .cursor.hover {
-            width: 60px;
-            height: 60px;
-            background: #fff;
-        }
-
-        .cursor-ring {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--text);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: transform 0.4s var(--ease-out), width 0.4s, height 0.4s, opacity 0.4s;
-            opacity: 0.5;
-        }
-
-        /* Зерно */
-        .grain {
-            position: fixed;
-            top: -50%; left: -50%; right: -50%; bottom: -50%;
-            width: 200%; height: 200%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9997;
-            opacity: 0.08;
-            animation: grainMove 8s steps(10) infinite;
-        }
-
-        @keyframes grainMove {
+        @keyframes grain {
             0%, 100% { transform: translate(0, 0); }
             10% { transform: translate(-5%, -10%); }
-            30% { transform: translate(3%, -15%); }
-            50% { transform: translate(12%, 9%); }
-            70% { transform: translate(9%, 4%); }
-            90% { transform: translate(-1%, 7%); }
+            20% { transform: translate(-15%, 5%); }
+            30% { transform: translate(7%, -25%); }
+            40% { transform: translate(-5%, 25%); }
+            50% { transform: translate(-15%, 10%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(3%, 35%); }
+            90% { transform: translate(-10%, 10%); }
         }
 
+        .animate-in {
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Эффект зернистости */
+        .grain-overlay {
+            position: fixed;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            width: 200%; height: 200vh;
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48ZmlsdGVyIGlkPSJub2lzZSI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNjUiIG51bU9jdGF2ZXM9IjMiIHN0aXRjaFRpbGVzPSJzdGl0Y2giLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbm9pc2UpIiBvcGFjaXR5PSIwLjA1Ii8+PC9zdmc+') repeat;
+            pointer-events: none;
+            z-index: 9999;
+            animation: grain 8s steps(10) infinite;
+        }
+
+        /* --- ЛЕЙАУТ --- */
         .container {
-            max-width: 1400px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 0 48px;
+            padding: 40px 24px; /* Чуть больше отступы для воздуха */
             position: relative;
             z-index: 1;
         }
 
-        /* NAV */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            padding: 32px 48px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference;
-            color: #fff;
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
         }
 
-        .nav-logo {
-            font-family: 'Syne', sans-serif;
+        h1 {
+            /* Адаптивный шрифт: мин 3rem, макс 5rem */
+            font-size: clamp(2.8rem, 8vw, 5rem);
             font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            font-weight: 400;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        /* HERO */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-top: 120px;
-            position: relative;
-        }
-
-        .hero-label {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--muted);
-            margin-bottom: 48px;
-            overflow: hidden;
-        }
-
-        .hero-label span {
-            display: inline-block;
-            transform: translateY(100%);
-            animation: slideUp 1s var(--ease-out) 0.3s forwards;
-        }
-
-        @keyframes slideUp {
-            to { transform: translateY(0); }
-        }
-
-        .hero-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3.5rem, 13vw, 12rem);
-            font-weight: 800;
-            line-height: 0.9;
-            letter-spacing: -0.04em;
-            margin-bottom: 48px;
-        }
-
-        .hero-title .line {
-            display: block;
-            overflow: hidden;
-        }
-
-        .hero-title .line-inner {
-            display: block;
-            transform: translateY(110%);
-            animation: lineReveal 1.4s var(--ease-out) forwards;
-        }
-
-        .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.15s; }
-        .hero-title .line:nth-child(3) .line-inner { animation-delay: 0.3s; }
-
-        @keyframes lineReveal {
-            to { transform: translateY(0); }
-        }
-
-        .hero-title .italic {
-            font-style: italic;
-            font-weight: 400;
-        }
-
-        .hero-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-top: 80px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border);
-        }
-
-        .hero-desc {
-            max-width: 400px;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--muted);
-            opacity: 0;
-            animation: fadeIn 1s var(--ease-out) 0.8s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .hero-scroll {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--muted);
-            opacity: 0;
-            animation: fadeIn 1s var(--ease-out) 1s forwards;
-        }
-
-        /* MARQUEE */
-        .marquee {
-            padding: 60px 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .marquee-track {
-            display: inline-flex;
-            animation: marquee 30s linear infinite;
-        }
-
-        .marquee-item {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 6vw, 5rem);
-            font-weight: 700;
-            padding: 0 32px;
-            color: var(--text);
-            flex-shrink: 0;
-        }
-
-        .marquee-item .dot {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background: var(--text);
-            border-radius: 50%;
-            margin: 0 32px;
-            vertical-align: middle;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* SERVICES */
-        .services {
-            padding: 160px 0;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 80px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section-num {
-            font-size: 0.85rem;
-            color: var(--muted);
-            letter-spacing: 0.1em;
-        }
-
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 700;
             letter-spacing: -0.03em;
-            line-height: 1;
+            margin-bottom: 10px;
+            line-height: 1.1;
         }
 
-        .service-list {
-            display: flex;
-            flex-direction: column;
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
 
-        .service-item {
+        /* --- ПРАЙС ЛИСТ (АДАПТИВНАЯ СЕТКА) --- */
+        .pricing-grid {
             display: grid;
-            grid-template-columns: 80px 1fr auto auto;
-            gap: 32px;
-            align-items: center;
-            padding: 32px 0;
-            border-bottom: 1px solid var(--border);
+            /* Автоматически подстраивается: 
+               На ПК - 3 колонки, Планшет - 2, Телефон - 1 */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .price-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 24px;
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: all 0.6s var(--ease);
             position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .service-item::before {
-            content: '';
-            position: absolute;
-            left: 0; right: 0; top: 0; bottom: 0;
-            background: var(--text);
-            opacity: 0;
-            transition: opacity 0.6s var(--ease);
-            z-index: -1;
+        /* На тач-устройствах убираем hover, чтобы не залипало */
+        @media (hover: hover) {
+            .price-card:hover {
+                border-color: #444;
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
         }
 
-        .service-item:hover {
-            padding-left: 32px;
-            color: #fff;
+        .price-card.selected {
+            border-color: #fff;
+            background: #1a1a1a;
         }
 
-        .service-item:hover::before {
-            opacity: 1;
-        }
-
-        .service-item.selected {
-            background: var(--text);
-            color: #fff;
-            padding-left: 32px;
-        }
-
-        .service-num {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .service-item:hover .service-num,
-        .service-item.selected .service-num {
-            color: rgba(255,255,255,0.5);
-        }
-
+        .service-info { display: flex; flex-direction: column; }
+        
         .service-name {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-size: 1.1rem;
             font-weight: 600;
-            letter-spacing: -0.02em;
-        }
-
-        .service-desc {
-            font-size: 0.9rem;
-            color: var(--muted);
-            max-width: 280px;
-        }
-
-        .service-item:hover .service-desc,
-        .service-item.selected .service-desc {
-            color: rgba(255,255,255,0.6);
+            margin-bottom: 4px;
         }
 
         .service-price {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-muted);
         }
 
-        /* CTA SECTION */
-        .cta {
-            padding: 160px 0;
-            text-align: center;
-        }
-
-        .cta-label {
+        .section-title {
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--muted);
-            margin-bottom: 48px;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin: 50px 0 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
         }
 
-        .cta-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 800;
-            line-height: 0.95;
-            letter-spacing: -0.04em;
-            margin-bottom: 64px;
+        /* --- ФОРМА ЗАКАЗА --- */
+        .order-section {
+            margin-top: 60px;
+            background: var(--card-bg);
+            padding: 30px;
+            border: 1px solid var(--border);
         }
 
-        .cta-title .italic {
-            font-style: italic;
-            font-weight: 400;
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
-        /* Магнитная кнопка */
-        .magnetic-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            background: var(--text);
-            color: var(--bg);
-            border: none;
-            padding: 28px 56px;
-            font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            cursor: none;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.4s var(--ease-out);
+        input, textarea {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 16px; /* Удобно для пальца */
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            border-radius: 0; /* Убираем скругления iOS */
+            appearance: none;
         }
 
-        .magnetic-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #666;
+        }
+
+        /* --- КНОПКА --- */
+        .btn-order {
+            width: 100%;
             background: #fff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s var(--ease), height 0.6s var(--ease);
+            color: #000;
+            border: none;
+            padding: 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+            border-radius: 0;
         }
 
-        .magnetic-btn:hover::before {
-            width: 400px;
-            height: 400px;
+        .btn-order:active {
+            transform: scale(0.98);
+            background: #ddd;
         }
 
-        .magnetic-btn span {
-            position: relative;
-            z-index: 1;
-            transition: color 0.4s;
-        }
-
-        .magnetic-btn:hover span {
-            color: var(--text);
-        }
-
-        .magnetic-btn .arrow {
-            position: relative;
-            z-index: 1;
-            transition: transform 0.4s var(--ease-out), color 0.4s;
-        }
-
-        .magnetic-btn:hover .arrow {
-            transform: translateX(8px);
-            color: var(--text);
-        }
-
-        /* FOOTER */
-        footer {
-            padding: 48px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
-
-        /* REVEAL ON SCROLL */
-        .reveal {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* TOAST */
+        /* Уведомление */
         .toast {
             position: fixed;
-            bottom: 40px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: var(--text);
-            color: var(--bg);
-            padding: 18px 36px;
-            border-radius: 100px;
+            background: #fff;
+            color: #000;
+            padding: 16px 24px;
+            font-weight: 600;
             font-size: 0.9rem;
-            font-weight: 500;
+            border-radius: 50px;
             opacity: 0;
-            transition: all 0.6s var(--ease-out);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 10000;
             pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            text-align: center;
+            width: max-content;
+            max-width: 90%;
         }
 
         .toast.show {
@@ -498,274 +246,214 @@
             opacity: 1;
         }
 
-        /* АДАПТИВ */
-        @media (max-width: 768px) {
-            body { cursor: auto; }
-            .cursor, .cursor-ring { display: none; }
-            .container { padding: 0 24px; }
-            nav { padding: 24px; }
-            .service-item {
-                grid-template-columns: 1fr;
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* --- МОБИЛЬНЫЕ ТВИКИ --- */
+        @media (max-width: 600px) {
+            .container { padding: 20px 16px; }
+            header { padding: 40px 0 30px; }
+            
+            /* На телефоне карточки идут одна под другой */
+            .pricing-grid { 
+                grid-template-columns: 1fr; 
                 gap: 12px;
-                padding: 24px 0;
             }
-            .service-item:hover, .service-item.selected {
-                padding-left: 16px;
+            
+            .price-card { padding: 20px; }
+            
+            .order-section { 
+                padding: 20px; 
+                margin-top: 40px;
             }
-            .service-desc { display: none; }
-            .hero-bottom { flex-direction: column; gap: 24px; align-items: flex-start; }
-            footer { flex-direction: column; gap: 16px; text-align: center; }
-            .magnetic-btn { padding: 24px 40px; width: 100%; justify-content: center; }
+            
+            /* Делаем кнопку более заметной на мобильном */
+            .btn-order { padding: 18px; font-size: 0.95rem; }
+        }
+
+        /* Для очень маленьких экранов (iPhone SE и т.д.) */
+        @media (max-width: 350px) {
+            h1 { font-size: 2.2rem; }
+            .service-name { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-ring" id="cursor-ring"></div>
-    <div class="grain"></div>
-
-    <nav>
-        <div class="nav-logo">PIKA.REW</div>
-        <div class="nav-status">
-            <div class="status-dot"></div>
-            <span>Available for work</span>
-        </div>
-    </nav>
+    <div class="grain-overlay"></div>
 
     <div class="container">
         
-        <!-- HERO -->
-        <section class="hero">
-            <div class="hero-label">
-                <span>Design Studio · 2024</span>
+        <header class="animate-in">
+            <h1>PIKA.REW</h1>
+            <div class="subtitle">Дизайн профиля</div>
+        </header>
+
+        <!-- УСЛУГИ ПО ОТДЕЛЬНОСТИ -->
+        <div class="section-title animate-in delay-1">Отдельные элементы</div>
+        <div class="pricing-grid animate-in delay-1">
+            <div class="price-card" onclick="selectService(this, 'Аватарка', 15)">
+                <div class="service-info">
+                    <div class="service-name">Аватарка</div>
+                </div>
+                <div class="service-price">15 BYN</div>
+            </div>
+            <div class="price-card" onclick="selectService(this, 'Баннер', 12)">
+                <div class="service-info">
+                    <div class="service-name">Баннер</div>
+                </div>
+                <div class="service-price">12 BYN</div>
+            </div>
+            <div class="price-card" onclick="selectService(this, 'Обложка сторис', 10)">
+                <div class="service-info">
+                    <div class="service-name">Обложка сторис</div>
+                </div>
+                <div class="service-price">10 BYN</div>
+            </div>
+            <div class="price-card" onclick="selectService(this, 'Один пост', 20)">
+                <div class="service-info">
+                    <div class="service-name">Один пост</div>
+                </div>
+                <div class="service-price">20 BYN</div>
+            </div>
+            <div class="price-card" onclick="selectService(this, 'Пост-карусель', 85)">
+                <div class="service-info">
+                    <div class="service-name">Пост-карусель</div>
+                </div>
+                <div class="service-price">85 BYN</div>
+            </div>
+        </div>
+
+        <!-- ПАКЕТЫ -->
+        <div class="section-title animate-in delay-2">Комплексные пакеты</div>
+        <div class="pricing-grid animate-in delay-2">
+            <div class="price-card" onclick="selectService(this, 'Пакет СТАРТ', 35)">
+                <div class="service-info">
+                    <div class="service-name">Пакет СТАРТ</div>
+                </div>
+                <div class="service-price">35 BYN</div>
+            </div>
+            <div class="price-card" onclick="selectService(this, 'Пакет БИЗНЕС', 80)">
+                <div class="service-info">
+                    <div class="service-name">Пакет БИЗНЕС</div>
+                </div>
+                <div class="service-price">80 BYN</div>
+            </div>
+            <div class="price-card" onclick="selectService(this, 'Пакет ПОД КЛЮЧ', 180)">
+                <div class="service-info">
+                    <div class="service-name">Пакет ПОД КЛЮЧ</div>
+                </div>
+                <div class="service-price">180 BYN</div>
+            </div>
+        </div>
+
+        <!-- ДОПОЛНИТЕЛЬНЫЕ УСЛОВИЯ -->
+        <div style="margin-top: 30px; color: var(--text-muted); font-size: 0.85rem; line-height: 1.8;" class="animate-in delay-3">
+            • Срочный заказ: +30% к стоимости<br>
+            • Две правки включены бесплатно
+        </div>
+
+        <!-- ФОРМА ЗАКАЗА -->
+        <div class="order-section animate-in delay-4">
+            <div class="form-group">
+                <label>Выбранная услуга</label>
+                <input type="text" id="selected-service" readonly placeholder="Нажми на карточку выше 👆">
             </div>
             
-            <h1 class="hero-title">
-                <span class="line"><span class="line-inner">Создаём</span></span>
-                <span class="line"><span class="line-inner"><span class="italic">визуал</span> для</span></span>
-                <span class="line"><span class="line-inner">профилей</span></span>
-            </h1>
-
-            <div class="hero-bottom">
-                <p class="hero-desc">
-                    Студия дизайна, специализирующаяся на упаковке социальных сетей. От аватарки до полного бренд-комплекта.
-                </p>
-                <div class="hero-scroll">
-                    ↓ Scroll to explore
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-    <!-- MARQUEE -->
-    <div class="marquee">
-        <div class="marquee-track">
-            <span class="marquee-item">Аватарки <span class="dot"></span></span>
-            <span class="marquee-item">Баннеры <span class="dot"></span></span>
-            <span class="marquee-item">Посты <span class="dot"></span></span>
-            <span class="marquee-item">Карусели <span class="dot"></span></span>
-            <span class="marquee-item">Сторис <span class="dot"></span></span>
-            <span class="marquee-item">Упаковка <span class="dot"></span></span>
-            <span class="marquee-item">Аватарки <span class="dot"></span></span>
-            <span class="marquee-item">Баннеры <span class="dot"></span></span>
-            <span class="marquee-item">Посты <span class="dot"></span></span>
-            <span class="marquee-item">Карусели <span class="dot"></span></span>
-            <span class="marquee-item">Сторис <span class="dot"></span></span>
-            <span class="marquee-item">Упаковка <span class="dot"></span></span>
-        </div>
-    </div>
-
-    <div class="container">
-        
-        <!-- SERVICES -->
-        <section class="services">
-            <div class="section-header reveal">
-                <div>
-                    <div class="section-num">01 / Услуги</div>
-                    <h2 class="section-title">Прайс</h2>
-                </div>
+            <div class="form-group">
+                <label>Ваше имя / Никнейм</label>
+                <input type="text" id="client-name" placeholder="Как к вам обращаться?" autocomplete="name">
             </div>
 
-            <div class="service-list">
-                <div class="service-item reveal" onclick="selectService(this, 'Аватарка', 15)">
-                    <div class="service-num">01</div>
-                    <div class="service-name">Аватарка</div>
-                    <div class="service-desc">Уникальный образ профиля в высоком разрешении</div>
-                    <div class="service-price">15 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Баннер', 12)">
-                    <div class="service-num">02</div>
-                    <div class="service-name">Баннер</div>
-                    <div class="service-desc">Стильное оформление шапки профиля</div>
-                    <div class="service-price">12 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Обложка сторис', 10)">
-                    <div class="service-num">03</div>
-                    <div class="service-name">Обложка сторис</div>
-                    <div class="service-desc">Актуальные сторис, которые продают</div>
-                    <div class="service-price">10 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Пост', 20)">
-                    <div class="service-num">04</div>
-                    <div class="service-name">Пост</div>
-                    <div class="service-desc">Продающий визуал для ленты</div>
-                    <div class="service-price">20 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Пост-карусель', 85)">
-                    <div class="service-num">05</div>
-                    <div class="service-name">Пост-карусель</div>
-                    <div class="service-desc">Многостраничный экспертный контент</div>
-                    <div class="service-price">85 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Пакет СТАРТ', 35)">
-                    <div class="service-num">06</div>
-                    <div class="service-name">Пакет СТАРТ</div>
-                    <div class="service-desc">Аватарка + Баннер + 3 обложки</div>
-                    <div class="service-price">35 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Пакет БИЗНЕС', 80)">
-                    <div class="service-num">07</div>
-                    <div class="service-name">Пакет БИЗНЕС</div>
-                    <div class="service-desc">Полная упаковка + 3 поста-карусели</div>
-                    <div class="service-price">80 BYN</div>
-                </div>
-
-                <div class="service-item reveal" onclick="selectService(this, 'Пакет ПОД КЛЮЧ', 180)">
-                    <div class="service-num">08</div>
-                    <div class="service-name">Пакет ПОД КЛЮЧ</div>
-                    <div class="service-desc">Максимальная упаковка профиля</div>
-                    <div class="service-price">180 BYN</div>
-                </div>
+            <div class="form-group">
+                <label>Пожелания (необязательно)</label>
+                <textarea id="client-notes" rows="3" placeholder="Цвета, стиль, референсы..."></textarea>
             </div>
-        </section>
 
-        <!-- CTA -->
-        <section class="cta">
-            <div class="cta-label reveal">02 / Связаться</div>
-            <h2 class="cta-title reveal">
-                Готов<br>
-                <span class="italic">начать?</span>
-            </h2>
-            <button class="magnetic-btn reveal" id="orderBtn" onclick="orderNow()">
-                <span>Заказать в Instagram</span>
-                <span class="arrow">→</span>
+            <button class="btn-order" onclick="sendOrder()">
+                Заказать в Instagram →
             </button>
-        </section>
+        </div>
+
+        <footer class="animate-in delay-4">
+            Заказ: @pika.rew<br>
+            © 2026 PIKA.REW
+        </footer>
 
     </div>
 
-    <footer>
-        <div>© 2024 PIKA.REW</div>
-        <div>@pika_raw</div>
-    </footer>
-
-    <div class="toast" id="toast">✓ Скопировано — вставь в DM</div>
+    <!-- Всплывающее уведомление -->
+    <div class="toast" id="toast">Текст скопирован! Вставь его в DM ↵</div>
 
     <script>
-        // === КАСТОМНЫЙ КУРСОР ===
-        const cursor = document.getElementById('cursor');
-        const cursorRing = document.getElementById('cursor-ring');
-        let mouseX = 0, mouseY = 0;
-        let ringX = 0, ringY = 0;
+        let currentService = '';
+        let currentPrice = 0;
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-        });
-
-        // Плавное следование кольца
-        function animateRing() {
-            ringX += (mouseX - ringX) * 0.15;
-            ringY += (mouseY - ringY) * 0.15;
-            cursorRing.style.left = ringX + 'px';
-            cursorRing.style.top = ringY + 'px';
-            requestAnimationFrame(animateRing);
-        }
-        animateRing();
-
-        // Hover эффекты для курсора
-        document.querySelectorAll('.service-item, .magnetic-btn, a').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        // === REVEAL ON SCROLL ===
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, i * 80);
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // === ВЫБОР УСЛУГИ ===
-        let selectedService = '';
-        let selectedPrice = 0;
-
-        function selectService(el, name, price) {
-            document.querySelectorAll('.service-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            el.classList.add('selected');
-            selectedService = name;
-            selectedPrice = price;
-            showToast(`✓ ${name} — ${price} BYN`);
+        function selectService(element, name, price) {
+            // Убираем выделение со всех
+            document.querySelectorAll('.price-card').forEach(card => card.classList.remove('selected'));
+            
+            // Выделяем текущую
+            element.classList.add('selected');
+            
+            currentService = name;
+            currentPrice = price;
+            
+            // Обновляем поле
+            const input = document.getElementById('selected-service');
+            input.value = `${name} — ${price} BYN`;
+            
+            // На мобильном лучше сразу скроллить к форме, но плавно
+            if (window.innerWidth < 800) {
+                setTimeout(() => {
+                    document.querySelector('.order-section').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 100);
+            }
         }
 
-        // === ЗАКАЗ ===
-        function orderNow() {
-            if (!selectedService) {
-                showToast('Сначала выбери услугу ↑');
-                document.querySelector('.services').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        async function sendOrder() {
+            const name = document.getElementById('client-name').value.trim();
+            const notes = document.getElementById('client-notes').value.trim();
+            
+            if (!currentService) {
+                alert('Сначала выберите услугу из списка выше 👆');
+                return;
+            }
+            if (!name) {
+                alert('Пожалуйста, напишите ваше имя или никнейм');
+                document.getElementById('client-name').focus();
                 return;
             }
 
-            const message = `Привет! 👋\nХочу заказать: ${selectedService} (${selectedPrice} BYN)\nЖду обратной связи!`;
+            // Формируем сообщение
+            const message = `Привет, Pika! 👋\n\nХочу заказать:\n📌 ${currentService} (${currentPrice} BYN)\n👤 Имя: ${name}\n💬 Пожелания: ${notes || 'Нет'}\n\nЖду ответ!`;
 
-            navigator.clipboard.writeText(message).then(() => {
-                showToast('✓ Скопировано — вставь в DM');
+            try {
+                // Копируем в буфер
+                await navigator.clipboard.writeText(message);
+                
+                // Показываем тост
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                
+                // Открываем Instagram через небольшую паузу
                 setTimeout(() => {
-                    window.open('https://ig.me/m/pika_raw', '_blank');
-                }, 900);
-            }).catch(() => {
-                window.open('https://ig.me/m/pika_raw', '_blank');
-            });
-        }
+                    window.open('https://ig.me/m/pika.rew', '_blank');
+                    toast.classList.remove('show');
+                }, 1200);
 
-        // === TOAST ===
-        function showToast(text) {
-            const toast = document.getElementById('toast');
-            toast.textContent = text;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+            } catch (err) {
+                // Если копирование не сработало (редко на iOS), просто открываем диалог
+                window.open('https://ig.me/m/pika.rew', '_blank');
+            }
         }
-
-        // === МАГНИТНАЯ КНОПКА ===
-        const magneticBtn = document.getElementById('orderBtn');
-        magneticBtn.addEventListener('mousemove', (e) => {
-            const rect = magneticBtn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            magneticBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-        });
-        magneticBtn.addEventListener('mouseleave', () => {
-            magneticBtn.style.transform = 'translate(0, 0)';
-        });
     </script>
 </body>
 </html>
