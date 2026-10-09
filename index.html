@@ -3,231 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIKA.REW | Дизайн профиля</title>
-    
+    <title>PIKA.REW — Design Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #fafafa;
-            --surface: #ffffff;
-            --text-primary: #0a0a0a;
-            --text-secondary: #666666;
-            --border: #e5e5e5;
-            --accent: #0a0a0a;
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        :root {
+            --bg: #f5f3ee;
+            --text: #1a1a1a;
+            --muted: #888;
+            --border: #e0ddd5;
+            --ease: cubic-bezier(0.76, 0, 0.24, 1);
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: var(--bg);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
+            cursor: none;
         }
 
-        /* Шум для текстуры */
-        .noise {
+        /* Кастомный курсор */
+        .cursor {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            width: 12px;
+            height: 12px;
+            background: var(--text);
+            border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            transform: translate(-50%, -50%);
+            transition: transform 0.15s var(--ease-out), width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference;
         }
 
-        /* Анимация появления */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s var(--ease) forwards;
+        .cursor.hover {
+            width: 60px;
+            height: 60px;
+            background: #fff;
         }
 
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .cursor-ring {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--text);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.4s var(--ease-out), width 0.4s, height 0.4s, opacity 0.4s;
+            opacity: 0.5;
         }
 
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
+        /* Зерно */
+        .grain {
+            position: fixed;
+            top: -50%; left: -50%; right: -50%; bottom: -50%;
+            width: 200%; height: 200%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.08;
+            animation: grainMove 8s steps(10) infinite;
+        }
+
+        @keyframes grainMove {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            30% { transform: translate(3%, -15%); }
+            50% { transform: translate(12%, 9%); }
+            70% { transform: translate(9%, 4%); }
+            90% { transform: translate(-1%, 7%); }
+        }
 
         .container {
-            max-width: 900px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 32px;
+            padding: 0 48px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* HEADER С АНИМИРОВАННЫМ ЛОГОТИПОМ */
-        header {
-            min-height: 70vh;
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 32px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            color: #fff;
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            text-align: center;
+            padding-top: 120px;
             position: relative;
         }
 
-        .logo-wrapper {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 24px;
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(3rem, 10vw, 7rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 0.9;
-            color: var(--text-primary);
-            position: relative;
-        }
-
-        .logo-char {
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(60px) rotateX(-90deg);
-            animation: charReveal 1.2s var(--ease) forwards;
-        }
-
-        @keyframes charReveal {
-            to {
-                opacity: 1;
-                transform: translateY(0) rotateX(0deg);
-            }
-        }
-
-        .tagline {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            letter-spacing: 0.2em;
+        .hero-label {
+            font-size: 0.85rem;
             text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            margin-bottom: 48px;
+            overflow: hidden;
+        }
+
+        .hero-label span {
+            display: inline-block;
+            transform: translateY(100%);
+            animation: slideUp 1s var(--ease-out) 0.3s forwards;
+        }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+
+        .hero-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3.5rem, 13vw, 12rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            margin-bottom: 48px;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .line-inner {
+            display: block;
+            transform: translateY(110%);
+            animation: lineReveal 1.4s var(--ease-out) forwards;
+        }
+
+        .hero-title .line:nth-child(2) .line-inner { animation-delay: 0.15s; }
+        .hero-title .line:nth-child(3) .line-inner { animation-delay: 0.3s; }
+
+        @keyframes lineReveal {
+            to { transform: translateY(0); }
+        }
+
+        .hero-title .italic {
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 80px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .hero-desc {
+            max-width: 400px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--muted);
             opacity: 0;
-            animation: fadeIn 1s var(--ease) 0.6s forwards;
+            animation: fadeIn 1s var(--ease-out) 0.8s forwards;
         }
 
         @keyframes fadeIn {
             to { opacity: 1; }
         }
 
-        /* СЕТКА УСЛУГ */
-        .section {
-            margin: 100px 0;
+        .hero-scroll {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--muted);
+            opacity: 0;
+            animation: fadeIn 1s var(--ease-out) 1s forwards;
+        }
+
+        /* MARQUEE */
+        .marquee {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-track {
+            display: inline-flex;
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee-item {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: 700;
+            padding: 0 32px;
+            color: var(--text);
+            flex-shrink: 0;
+        }
+
+        .marquee-item .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: var(--text);
+            border-radius: 50%;
+            margin: 0 32px;
+            vertical-align: middle;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* SERVICES */
+        .services {
+            padding: 160px 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 80px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-num {
+            font-size: 0.85rem;
+            color: var(--muted);
+            letter-spacing: 0.1em;
         }
 
         .section-title {
             font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 700;
-            margin-bottom: 32px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border);
+            letter-spacing: -0.03em;
+            line-height: 1;
         }
 
-        .grid {
+        .service-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-item {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 32px;
+            grid-template-columns: 80px 1fr auto auto;
+            gap: 32px;
+            align-items: center;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--border);
             cursor: pointer;
-            transition: all 0.5s var(--ease);
+            transition: all 0.6s var(--ease);
             position: relative;
-            overflow: hidden;
         }
 
-        .card::before {
+        .service-item::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--text-primary);
+            left: 0; right: 0; top: 0; bottom: 0;
+            background: var(--text);
             opacity: 0;
-            transition: opacity 0.5s var(--ease);
-            z-index: 0;
+            transition: opacity 0.6s var(--ease);
+            z-index: -1;
         }
 
-        .card:hover::before {
-            opacity: 0.03;
+        .service-item:hover {
+            padding-left: 32px;
+            color: #fff;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--text-primary);
+        .service-item:hover::before {
+            opacity: 1;
         }
 
-        .card.selected {
-            border-color: var(--text-primary);
-            border-width: 2px;
+        .service-item.selected {
+            background: var(--text);
+            color: #fff;
+            padding-left: 32px;
         }
 
-        .card-content {
-            position: relative;
-            z-index: 1;
+        .service-num {
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
         }
 
-        .card-title {
+        .service-item:hover .service-num,
+        .service-item.selected .service-num {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .service-name {
             font-family: 'Syne', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
 
-        .card-desc {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            line-height: 1.5;
+        .service-desc {
+            font-size: 0.9rem;
+            color: var(--muted);
+            max-width: 280px;
         }
 
-        .card-price {
-            font-size: 1.25rem;
-            font-weight: 500;
+        .service-item:hover .service-desc,
+        .service-item.selected .service-desc {
+            color: rgba(255,255,255,0.6);
         }
 
-        /* КНОПКА ЗАКАЗА */
-        .order-section {
-            margin: 80px 0 120px;
+        .service-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* CTA SECTION */
+        .cta {
+            padding: 160px 0;
             text-align: center;
         }
 
-        .btn {
-            display: inline-block;
-            background: var(--accent);
+        .cta-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            margin-bottom: 48px;
+        }
+
+        .cta-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            margin-bottom: 64px;
+        }
+
+        .cta-title .italic {
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* Магнитная кнопка */
+        .magnetic-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--text);
             color: var(--bg);
             border: none;
-            padding: 24px 64px;
+            padding: 28px 56px;
             font-family: 'Syne', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            transition: all 0.5s var(--ease);
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: none;
             position: relative;
             overflow: hidden;
+            transition: transform 0.4s var(--ease-out);
         }
 
-        .btn:hover {
-            transform: scale(0.98);
-            opacity: 0.9;
+        .magnetic-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s var(--ease), height 0.6s var(--ease);
         }
 
-        .btn:active {
-            transform: scale(0.96);
+        .magnetic-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .magnetic-btn span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s;
+        }
+
+        .magnetic-btn:hover span {
+            color: var(--text);
+        }
+
+        .magnetic-btn .arrow {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.4s var(--ease-out), color 0.4s;
+        }
+
+        .magnetic-btn:hover .arrow {
+            transform: translateX(8px);
+            color: var(--text);
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 48px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* REVEAL ON SCROLL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* TOAST */
@@ -236,14 +481,14 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: var(--text-primary);
+            background: var(--text);
             color: var(--bg);
-            padding: 16px 32px;
+            padding: 18px 36px;
             border-radius: 100px;
-            font-weight: 500;
             font-size: 0.9rem;
+            font-weight: 500;
             opacity: 0;
-            transition: all 0.5s var(--ease);
+            transition: all 0.6s var(--ease-out);
             z-index: 10000;
             pointer-events: none;
         }
@@ -255,170 +500,272 @@
 
         /* АДАПТИВ */
         @media (max-width: 768px) {
-            .container { padding: 0 20px; }
-            .grid { grid-template-columns: 1fr; }
-            .btn { padding: 20px 40px; width: 100%; }
+            body { cursor: auto; }
+            .cursor, .cursor-ring { display: none; }
+            .container { padding: 0 24px; }
+            nav { padding: 24px; }
+            .service-item {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 24px 0;
+            }
+            .service-item:hover, .service-item.selected {
+                padding-left: 16px;
+            }
+            .service-desc { display: none; }
+            .hero-bottom { flex-direction: column; gap: 24px; align-items: flex-start; }
+            footer { flex-direction: column; gap: 16px; text-align: center; }
+            .magnetic-btn { padding: 24px 40px; width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <div class="noise"></div>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
+    <div class="grain"></div>
+
+    <nav>
+        <div class="nav-logo">PIKA.REW</div>
+        <div class="nav-status">
+            <div class="status-dot"></div>
+            <span>Available for work</span>
+        </div>
+    </nav>
 
     <div class="container">
         
-        <header>
-            <div class="logo-wrapper">
-                <h1 class="logo" id="logo">PIKA.REW</h1>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-label">
+                <span>Design Studio · 2024</span>
             </div>
-            <p class="tagline">Дизайн профиля</p>
-        </header>
+            
+            <h1 class="hero-title">
+                <span class="line"><span class="line-inner">Создаём</span></span>
+                <span class="line"><span class="line-inner"><span class="italic">визуал</span> для</span></span>
+                <span class="line"><span class="line-inner">профилей</span></span>
+            </h1>
 
-        <div class="section">
-            <h2 class="section-title fade-up delay-1">Услуги</h2>
-            <div class="grid">
-                <div class="card fade-up delay-1" onclick="selectService('Аватарка', 15, this)">
-                    <div class="card-content">
-                        <div class="card-title">Аватарка</div>
-                        <div class="card-desc">Уникальный образ профиля</div>
-                        <div class="card-price">15 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-2" onclick="selectService('Баннер', 12, this)">
-                    <div class="card-content">
-                        <div class="card-title">Баннер</div>
-                        <div class="card-desc">Оформление шапки</div>
-                        <div class="card-price">12 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-3" onclick="selectService('Обложка сторис', 10, this)">
-                    <div class="card-content">
-                        <div class="card-title">Обложка сторис</div>
-                        <div class="card-desc">Актуальные сторис</div>
-                        <div class="card-price">10 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-4" onclick="selectService('Пост', 20, this)">
-                    <div class="card-content">
-                        <div class="card-title">Пост</div>
-                        <div class="card-desc">Визуал для ленты</div>
-                        <div class="card-price">20 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-1" onclick="selectService('Пост-карусель', 85, this)">
-                    <div class="card-content">
-                        <div class="card-title">Пост-карусель</div>
-                        <div class="card-desc">Многостраничный контент</div>
-                        <div class="card-price">85 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-2" onclick="selectService('Пакет СТАРТ', 35, this)">
-                    <div class="card-content">
-                        <div class="card-title">Пакет СТАРТ</div>
-                        <div class="card-desc">Аватарка + Баннер + 3 обложки</div>
-                        <div class="card-price">35 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-3" onclick="selectService('Пакет БИЗНЕС', 80, this)">
-                    <div class="card-content">
-                        <div class="card-title">Пакет БИЗНЕС</div>
-                        <div class="card-desc">Полная упаковка + 3 поста</div>
-                        <div class="card-price">80 BYN</div>
-                    </div>
-                </div>
-
-                <div class="card fade-up delay-4" onclick="selectService('Пакет ПОД КЛЮЧ', 180, this)">
-                    <div class="card-content">
-                        <div class="card-title">Пакет ПОД КЛЮЧ</div>
-                        <div class="card-desc">Максимальная упаковка</div>
-                        <div class="card-price">180 BYN</div>
-                    </div>
+            <div class="hero-bottom">
+                <p class="hero-desc">
+                    Студия дизайна, специализирующаяся на упаковке социальных сетей. От аватарки до полного бренд-комплекта.
+                </p>
+                <div class="hero-scroll">
+                    ↓ Scroll to explore
                 </div>
             </div>
-        </div>
-
-        <div class="order-section fade-up delay-3">
-            <button class="btn" onclick="orderNow()">Заказать</button>
-        </div>
+        </section>
 
     </div>
 
-    <div class="toast" id="toast">Сообщение скопировано!</div>
+    <!-- MARQUEE -->
+    <div class="marquee">
+        <div class="marquee-track">
+            <span class="marquee-item">Аватарки <span class="dot"></span></span>
+            <span class="marquee-item">Баннеры <span class="dot"></span></span>
+            <span class="marquee-item">Посты <span class="dot"></span></span>
+            <span class="marquee-item">Карусели <span class="dot"></span></span>
+            <span class="marquee-item">Сторис <span class="dot"></span></span>
+            <span class="marquee-item">Упаковка <span class="dot"></span></span>
+            <span class="marquee-item">Аватарки <span class="dot"></span></span>
+            <span class="marquee-item">Баннеры <span class="dot"></span></span>
+            <span class="marquee-item">Посты <span class="dot"></span></span>
+            <span class="marquee-item">Карусели <span class="dot"></span></span>
+            <span class="marquee-item">Сторис <span class="dot"></span></span>
+            <span class="marquee-item">Упаковка <span class="dot"></span></span>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- SERVICES -->
+        <section class="services">
+            <div class="section-header reveal">
+                <div>
+                    <div class="section-num">01 / Услуги</div>
+                    <h2 class="section-title">Прайс</h2>
+                </div>
+            </div>
+
+            <div class="service-list">
+                <div class="service-item reveal" onclick="selectService(this, 'Аватарка', 15)">
+                    <div class="service-num">01</div>
+                    <div class="service-name">Аватарка</div>
+                    <div class="service-desc">Уникальный образ профиля в высоком разрешении</div>
+                    <div class="service-price">15 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Баннер', 12)">
+                    <div class="service-num">02</div>
+                    <div class="service-name">Баннер</div>
+                    <div class="service-desc">Стильное оформление шапки профиля</div>
+                    <div class="service-price">12 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Обложка сторис', 10)">
+                    <div class="service-num">03</div>
+                    <div class="service-name">Обложка сторис</div>
+                    <div class="service-desc">Актуальные сторис, которые продают</div>
+                    <div class="service-price">10 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Пост', 20)">
+                    <div class="service-num">04</div>
+                    <div class="service-name">Пост</div>
+                    <div class="service-desc">Продающий визуал для ленты</div>
+                    <div class="service-price">20 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Пост-карусель', 85)">
+                    <div class="service-num">05</div>
+                    <div class="service-name">Пост-карусель</div>
+                    <div class="service-desc">Многостраничный экспертный контент</div>
+                    <div class="service-price">85 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Пакет СТАРТ', 35)">
+                    <div class="service-num">06</div>
+                    <div class="service-name">Пакет СТАРТ</div>
+                    <div class="service-desc">Аватарка + Баннер + 3 обложки</div>
+                    <div class="service-price">35 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Пакет БИЗНЕС', 80)">
+                    <div class="service-num">07</div>
+                    <div class="service-name">Пакет БИЗНЕС</div>
+                    <div class="service-desc">Полная упаковка + 3 поста-карусели</div>
+                    <div class="service-price">80 BYN</div>
+                </div>
+
+                <div class="service-item reveal" onclick="selectService(this, 'Пакет ПОД КЛЮЧ', 180)">
+                    <div class="service-num">08</div>
+                    <div class="service-name">Пакет ПОД КЛЮЧ</div>
+                    <div class="service-desc">Максимальная упаковка профиля</div>
+                    <div class="service-price">180 BYN</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta">
+            <div class="cta-label reveal">02 / Связаться</div>
+            <h2 class="cta-title reveal">
+                Готов<br>
+                <span class="italic">начать?</span>
+            </h2>
+            <button class="magnetic-btn reveal" id="orderBtn" onclick="orderNow()">
+                <span>Заказать в Instagram</span>
+                <span class="arrow">→</span>
+            </button>
+        </section>
+
+    </div>
+
+    <footer>
+        <div>© 2024 PIKA.REW</div>
+        <div>@pika_raw</div>
+    </footer>
+
+    <div class="toast" id="toast">✓ Скопировано — вставь в DM</div>
 
     <script>
-        // Анимация логотипа по буквам
-        const logo = document.getElementById('logo');
-        const text = logo.textContent;
-        logo.innerHTML = '';
-        
-        text.split('').forEach((char, i) => {
-            const span = document.createElement('span');
-            span.className = 'logo-char';
-            span.textContent = char === ' ' ? '\u00A0' : char;
-            span.style.animationDelay = `${0.1 + i * 0.08}s`;
-            logo.appendChild(span);
+        // === КАСТОМНЫЙ КУРСОР ===
+        const cursor = document.getElementById('cursor');
+        const cursorRing = document.getElementById('cursor-ring');
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
         });
 
-        // Выбор услуги
+        // Плавное следование кольца
+        function animateRing() {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Hover эффекты для курсора
+        document.querySelectorAll('.service-item, .magnetic-btn, a').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // === REVEAL ON SCROLL ===
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // === ВЫБОР УСЛУГИ ===
         let selectedService = '';
         let selectedPrice = 0;
 
-        function selectService(name, price, element) {
-            // Убираем выделение со всех
-            document.querySelectorAll('.card').forEach(card => {
-                card.classList.remove('selected');
+        function selectService(el, name, price) {
+            document.querySelectorAll('.service-item').forEach(item => {
+                item.classList.remove('selected');
             });
-            
-            // Выделяем текущую
-            element.classList.add('selected');
+            el.classList.add('selected');
             selectedService = name;
             selectedPrice = price;
-            
-            // Показываем toast
-            showToast(`${name} — ${price} BYN выбрано`);
+            showToast(`✓ ${name} — ${price} BYN`);
         }
 
-        // Заказ
+        // === ЗАКАЗ ===
         function orderNow() {
             if (!selectedService) {
-                showToast('Выберите услугу выше', true);
-                document.querySelector('.grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showToast('Сначала выбери услугу ↑');
+                document.querySelector('.services').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 return;
             }
 
-            const message = `Привет! Хочу заказать: ${selectedService} (${selectedPrice} BYN)`;
-            
-            // Копируем в буфер
+            const message = `Привет! 👋\nХочу заказать: ${selectedService} (${selectedPrice} BYN)\nЖду обратной связи!`;
+
             navigator.clipboard.writeText(message).then(() => {
-                showToast('Текст скопирован! Вставьте в DM');
-                
-                // Открываем Instagram
+                showToast('✓ Скопировано — вставь в DM');
                 setTimeout(() => {
                     window.open('https://ig.me/m/pika_raw', '_blank');
-                }, 1000);
+                }, 900);
             }).catch(() => {
                 window.open('https://ig.me/m/pika_raw', '_blank');
             });
         }
 
-        // Toast уведомления
-        function showToast(text, isError = false) {
+        // === TOAST ===
+        function showToast(text) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
-            toast.style.background = isError ? '#ef4444' : 'var(--text-primary)';
-            toast.style.color = isError ? '#fff' : 'var(--bg)';
             toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2500);
+            setTimeout(() => toast.classList.remove('show'), 2500);
         }
+
+        // === МАГНИТНАЯ КНОПКА ===
+        const magneticBtn = document.getElementById('orderBtn');
+        magneticBtn.addEventListener('mousemove', (e) => {
+            const rect = magneticBtn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            magneticBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+        magneticBtn.addEventListener('mouseleave', () => {
+            magneticBtn.style.transform = 'translate(0, 0)';
+        });
     </script>
 </body>
 </html>
