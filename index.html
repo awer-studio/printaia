@@ -3,30 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIKA.REW | Студия дизайна профиля</title>
+    <title>PIKA.REW | Дизайн профиля</title>
     
-    <!-- Премиальные шрифты -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. ПЕРЕМЕННЫЕ И БАЗА --- */
         :root {
-            --bg: #050505;
-            --surface: #0f0f0f;
-            --surface-hover: #161616;
-            --border: #222222;
-            --border-active: #ffffff;
-            --text-primary: #ffffff;
-            --text-secondary: #888888;
-            --accent: #ffffff;
-            --ease-studio: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --text-primary: #0a0a0a;
+            --text-secondary: #666666;
+            --border: #e5e5e5;
+            --accent: #0a0a0a;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg);
@@ -34,49 +28,46 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 2. ЭФФЕКТ ЗЕРНИСТОСТИ (NOISE) --- */
-        .noise-overlay {
+        /* Шум для текстуры */
+        .noise {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
-        /* --- 3. АНИМАЦИИ ПОЯВЛЕНИЯ (SCROLL REVEAL) --- */
-        .reveal {
+        /* Анимация появления */
+        .fade-up {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s var(--ease-studio), transform 0.9s var(--ease-studio);
+            transform: translateY(30px);
+            animation: fadeUp 1s var(--ease) forwards;
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Каскадная задержка для дочерних элементов */
-        .stagger-1 { transition-delay: 0.1s; }
-        .stagger-2 { transition-delay: 0.2s; }
-        .stagger-3 { transition-delay: 0.3s; }
-        .stagger-4 { transition-delay: 0.4s; }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
 
-        /* --- 4. ЛЕЙАУТ --- */
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 0 24px;
-            position: relative;
-            z-index: 1;
+            padding: 0 32px;
         }
 
-        /* --- 5. ХЕДЕР И ЛОГОТИП --- */
+        /* HEADER С АНИМИРОВАННЫМ ЛОГОТИПОМ */
         header {
-            min-height: 80vh;
+            min-height: 70vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -85,529 +76,348 @@
             position: relative;
         }
 
-        .logo-text {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(4rem, 12vw, 8rem);
-            font-weight: 800;
-            letter-spacing: -0.04em;
-            line-height: 0.9;
-            background: linear-gradient(180deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .logo-wrapper {
+            position: relative;
+            overflow: hidden;
             margin-bottom: 24px;
         }
 
-        .tagline {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: var(--text-secondary);
-            font-weight: 300;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            color: var(--text-primary);
             position: relative;
+        }
+
+        .logo-char {
             display: inline-block;
+            opacity: 0;
+            transform: translateY(60px) rotateX(-90deg);
+            animation: charReveal 1.2s var(--ease) forwards;
         }
 
-        .tagline::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 1px;
-            background: var(--text-secondary);
+        @keyframes charReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg);
+            }
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
+        .tagline {
+            font-size: 0.95rem;
             color: var(--text-secondary);
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            animation: bounce 2s infinite;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 1s var(--ease) 0.6s forwards;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
-        /* --- 6. СЕКЦИИ И ЗАГОЛОВКИ --- */
-        .section-header {
-            margin: 120px 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 16px;
+        /* СЕТКА УСЛУГ */
+        .section {
+            margin: 100px 0;
         }
 
         .section-title {
             font-family: 'Syne', sans-serif;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .section-subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-align: right;
-        }
-
-        /* --- 7. КАРТОЧКИ УСЛУГ (С ЭФФЕКТОМ СВЕЧЕНИЯ) --- */
-        .pricing-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 16px;
         }
 
-        .price-card {
+        .card {
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 32px;
             cursor: pointer;
+            transition: all 0.5s var(--ease);
             position: relative;
             overflow: hidden;
-            transition: border-color 0.4s var(--ease-studio), transform 0.4s var(--ease-studio);
         }
 
-        /* Эффект свечения при наведении */
-        .price-card::before {
+        .card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+            background: var(--text-primary);
             opacity: 0;
-            transition: opacity 0.4s;
-            pointer-events: none;
+            transition: opacity 0.5s var(--ease);
             z-index: 0;
         }
 
-        .price-card:hover::before { opacity: 1; }
-        .price-card:hover { border-color: #444; transform: translateY(-4px); }
-        
-        .price-card.selected {
-            border-color: var(--border-active);
-            background: var(--surface-hover);
+        .card:hover::before {
+            opacity: 0.03;
         }
 
-        .price-card.selected .service-name::after {
-            content: '✓';
-            position: absolute;
-            top: 24px; right: 24px;
-            font-size: 1.2rem;
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--text-primary);
         }
 
-        .card-content { position: relative; z-index: 1; }
+        .card.selected {
+            border-color: var(--text-primary);
+            border-width: 2px;
+        }
 
-        .service-name {
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-title {
             font-family: 'Syne', sans-serif;
-            font-size: 1.35rem;
+            font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 8px;
-            position: relative;
-            padding-right: 30px;
         }
 
-        .service-desc {
-            font-size: 0.85rem;
+        .card-desc {
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             line-height: 1.5;
         }
 
-        .service-price {
-            font-size: 1.5rem;
-            font-weight: 300;
-            color: var(--text-primary);
-        }
-
-        /* --- 8. ФОРМА ЗАКАЗА --- */
-        .order-section {
-            margin: 120px 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 48px;
-            position: relative;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .form-group { margin-bottom: 24px; }
-        .form-group.full-width { grid-column: 1 / -1; }
-
-        label {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
+        .card-price {
+            font-size: 1.25rem;
             font-weight: 500;
         }
 
-        input, textarea {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 12px 0;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            transition: border-color 0.3s;
-            border-radius: 0;
+        /* КНОПКА ЗАКАЗА */
+        .order-section {
+            margin: 80px 0 120px;
+            text-align: center;
         }
 
-        input:focus, textarea:focus {
-            outline: none;
-            border-bottom-color: var(--border-active);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: #444;
-        }
-
-        /* Кнопка */
-        .btn-order {
-            width: 100%;
-            background: var(--text-primary);
+        .btn {
+            display: inline-block;
+            background: var(--accent);
             color: var(--bg);
             border: none;
-            padding: 24px;
+            padding: 24px 64px;
             font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             cursor: pointer;
-            transition: all 0.4s var(--ease-studio);
+            transition: all 0.5s var(--ease);
             position: relative;
             overflow: hidden;
-            margin-top: 16px;
         }
 
-        .btn-order:hover {
+        .btn:hover {
             transform: scale(0.98);
-            background: #e0e0e0;
+            opacity: 0.9;
         }
 
-        .btn-order:active { transform: scale(0.96); }
+        .btn:active {
+            transform: scale(0.96);
+        }
 
-        /* --- 9. TOAST УВЕДОМЛЕНИЯ --- */
-        .toast-container {
+        /* TOAST */
+        .toast {
             position: fixed;
-            bottom: 32px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            z-index: 10000;
-            opacity: 0;
-            transition: all 0.5s var(--ease-studio);
-        }
-
-        .toast-container.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast {
             background: var(--text-primary);
             color: var(--bg);
             padding: 16px 32px;
             border-radius: 100px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            font-weight: 500;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.5s var(--ease);
+            z-index: 10000;
+            pointer-events: none;
         }
 
-        .toast.error {
-            background: #ff4444;
-            color: white;
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
-        /* --- 10. АДАПТИВ --- */
+        /* АДАПТИВ */
         @media (max-width: 768px) {
-            .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .section-subtitle { text-align: left; }
-            .form-grid { grid-template-columns: 1fr; }
-            .order-section { padding: 32px 24px; }
-            .logo-text { font-size: 3.5rem; }
+            .container { padding: 0 20px; }
+            .grid { grid-template-columns: 1fr; }
+            .btn { padding: 20px 40px; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div class="noise-overlay"></div>
+    <div class="noise"></div>
 
     <div class="container">
         
-        <!-- HEADER -->
         <header>
-            <h1 class="logo-text reveal">PIKA.REW</h1>
-            <div class="tagline reveal stagger-1">Студия дизайна профиля</div>
-            
-            <div class="scroll-indicator reveal stagger-2">
-                <span>SCROLL</span>
-                <span>↓</span>
+            <div class="logo-wrapper">
+                <h1 class="logo" id="logo">PIKA.REW</h1>
             </div>
+            <p class="tagline">Дизайн профиля</p>
         </header>
 
-        <!-- УСЛУГИ ПО ОТДЕЛЬНОСТИ -->
-        <div class="section-header reveal">
-            <h2 class="section-title">Элементы</h2>
-            <span class="section-subtitle">Индивидуальный подход к каждой детали</span>
-        </div>
-        
-        <div class="pricing-grid">
-            <div class="price-card reveal stagger-1" onclick="selectService(this, 'Аватарка', 15)">
-                <div class="card-content">
-                    <div class="service-name">Аватарка</div>
-                    <div class="service-desc">Уникальный, запоминающийся образ профиля в высоком разрешении.</div>
-                    <div class="service-price">15 BYN</div>
+        <div class="section">
+            <h2 class="section-title fade-up delay-1">Услуги</h2>
+            <div class="grid">
+                <div class="card fade-up delay-1" onclick="selectService('Аватарка', 15, this)">
+                    <div class="card-content">
+                        <div class="card-title">Аватарка</div>
+                        <div class="card-desc">Уникальный образ профиля</div>
+                        <div class="card-price">15 BYN</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="price-card reveal stagger-2" onclick="selectService(this, 'Баннер', 12)">
-                <div class="card-content">
-                    <div class="service-name">Баннер</div>
-                    <div class="service-desc">Стильное оформление шапки профиля или YouTube канала.</div>
-                    <div class="service-price">12 BYN</div>
+                <div class="card fade-up delay-2" onclick="selectService('Баннер', 12, this)">
+                    <div class="card-content">
+                        <div class="card-title">Баннер</div>
+                        <div class="card-desc">Оформление шапки</div>
+                        <div class="card-price">12 BYN</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="price-card reveal stagger-3" onclick="selectService(this, 'Обложка сторис', 10)">
-                <div class="card-content">
-                    <div class="service-name">Обложка сторис</div>
-                    <div class="service-desc">Актуальные сторис (Highlights), которые продают с первого взгляда.</div>
-                    <div class="service-price">10 BYN</div>
+                <div class="card fade-up delay-3" onclick="selectService('Обложка сторис', 10, this)">
+                    <div class="card-content">
+                        <div class="card-title">Обложка сторис</div>
+                        <div class="card-desc">Актуальные сторис</div>
+                        <div class="card-price">10 BYN</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="price-card reveal stagger-4" onclick="selectService(this, 'Пост', 20)">
-                <div class="card-content">
-                    <div class="service-name">Один пост</div>
-                    <div class="service-desc">Продающий или имиджевый визуал для ленты с учетом сетки.</div>
-                    <div class="service-price">20 BYN</div>
+                <div class="card fade-up delay-4" onclick="selectService('Пост', 20, this)">
+                    <div class="card-content">
+                        <div class="card-title">Пост</div>
+                        <div class="card-desc">Визуал для ленты</div>
+                        <div class="card-price">20 BYN</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="price-card reveal stagger-1" onclick="selectService(this, 'Пост-карусель', 85)">
-                <div class="card-content">
-                    <div class="service-name">Пост-карусель</div>
-                    <div class="service-desc">Многостраничный экспертный или продающий контент (до 5 слайдов).</div>
-                    <div class="service-price">85 BYN</div>
+                <div class="card fade-up delay-1" onclick="selectService('Пост-карусель', 85, this)">
+                    <div class="card-content">
+                        <div class="card-title">Пост-карусель</div>
+                        <div class="card-desc">Многостраничный контент</div>
+                        <div class="card-price">85 BYN</div>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- ПАКЕТЫ -->
-        <div class="section-header reveal">
-            <h2 class="section-title">Пакеты</h2>
-            <span class="section-subtitle">Комплексные решения для быстрого старта</span>
-        </div>
-
-        <div class="pricing-grid">
-            <div class="price-card reveal stagger-1" onclick="selectService(this, 'Пакет СТАРТ', 35)">
-                <div class="card-content">
-                    <div class="service-name">Пакет СТАРТ</div>
-                    <div class="service-desc">Аватарка + Баннер + 3 обложки для актуального.</div>
-                    <div class="service-price">35 BYN</div>
+                <div class="card fade-up delay-2" onclick="selectService('Пакет СТАРТ', 35, this)">
+                    <div class="card-content">
+                        <div class="card-title">Пакет СТАРТ</div>
+                        <div class="card-desc">Аватарка + Баннер + 3 обложки</div>
+                        <div class="card-price">35 BYN</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="price-card reveal stagger-2" onclick="selectService(this, 'Пакет БИЗНЕС', 80)">
-                <div class="card-content">
-                    <div class="service-name">Пакет БИЗНЕС</div>
-                    <div class="service-desc">Полная упаковка профиля + 3 поста-карусели.</div>
-                    <div class="service-price">80 BYN</div>
+                <div class="card fade-up delay-3" onclick="selectService('Пакет БИЗНЕС', 80, this)">
+                    <div class="card-content">
+                        <div class="card-title">Пакет БИЗНЕС</div>
+                        <div class="card-desc">Полная упаковка + 3 поста</div>
+                        <div class="card-price">80 BYN</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="price-card reveal stagger-3" onclick="selectService(this, 'Пакет ПОД КЛЮЧ', 180)">
-                <div class="card-content">
-                    <div class="service-name">Пакет ПОД КЛЮЧ</div>
-                    <div class="service-desc">Максимальная упаковка: визуал, сетка на месяц, шаблоны сторис.</div>
-                    <div class="service-price">180 BYN</div>
+                <div class="card fade-up delay-4" onclick="selectService('Пакет ПОД КЛЮЧ', 180, this)">
+                    <div class="card-content">
+                        <div class="card-title">Пакет ПОД КЛЮЧ</div>
+                        <div class="card-desc">Максимальная упаковка</div>
+                        <div class="card-price">180 BYN</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- ДОПОЛНИТЕЛЬНО -->
-        <div class="reveal" style="margin-top: 40px; padding: 24px; border-left: 2px solid var(--border); color: var(--text-secondary); font-size: 0.9rem;">
-            <strong style="color: var(--text-primary); display: block; margin-bottom: 8px;">Условия работы:</strong>
-            • Срочный заказ (менее 48 часов): +30% к стоимости<br>
-            • Две итерации правок включены в стоимость любого пакета.
+        <div class="order-section fade-up delay-3">
+            <button class="btn" onclick="orderNow()">Заказать</button>
         </div>
-
-        <!-- ФОРМА ЗАКАЗА -->
-        <div class="order-section reveal" id="order-form">
-            <div class="section-header" style="margin-top: 0; border: none; padding: 0;">
-                <h2 class="section-title">Оформить заказ</h2>
-            </div>
-
-            <div class="form-grid">
-                <div class="form-group full-width">
-                    <label>Выбранная услуга</label>
-                    <input type="text" id="selected-service" readonly placeholder="Нажмите на карточку выше, чтобы выбрать">
-                </div>
-                
-                <div class="form-group">
-                    <label>Ваше имя / Никнейм</label>
-                    <input type="text" id="client-name" placeholder="@username">
-                </div>
-
-                <div class="form-group">
-                    <label>Ваш Instagram / Telegram</label>
-                    <input type="text" id="client-contact" placeholder="Для связи">
-                </div>
-
-                <div class="form-group full-width">
-                    <label>Детали и пожелания</label>
-                    <textarea id="client-notes" rows="3" placeholder="Цветовая гамма, референсы, особые требования..."></textarea>
-                </div>
-            </div>
-
-            <button class="btn-order" onclick="sendOrder()">
-                Перейти в Instagram для заказа →
-            </button>
-        </div>
-
-        <footer class="reveal" style="text-align: center; padding: 60px 0; color: var(--text-secondary); font-size: 0.8rem; letter-spacing: 0.05em;">
-            © 2024 PIKA.REW DESIGN STUDIO. ALL RIGHTS RESERVED.<br>
-            <span style="opacity: 0.5; margin-top: 8px; display: inline-block;">Связь: @pika_raw</span>
-        </footer>
 
     </div>
 
-    <!-- TOAST УВЕДОМЛЕНИЕ -->
-    <div class="toast-container" id="toast-container">
-        <div class="toast" id="toast-message">
-            <span>✓</span> Текст скопирован! Вставьте его в DM.
-        </div>
-    </div>
+    <div class="toast" id="toast">Сообщение скопировано!</div>
 
     <script>
-        // --- 1. SCROLL REVEAL ANIMATION (Intersection Observer) ---
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Анимируем только один раз
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-
-        // --- 2. MOUSE GLOW EFFECT ДЛЯ КАРТОЧЕК ---
-        document.querySelectorAll('.price-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
+        // Анимация логотипа по буквам
+        const logo = document.getElementById('logo');
+        const text = logo.textContent;
+        logo.innerHTML = '';
+        
+        text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'logo-char';
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = `${0.1 + i * 0.08}s`;
+            logo.appendChild(span);
         });
 
+        // Выбор услуги
+        let selectedService = '';
+        let selectedPrice = 0;
 
-        // --- 3. ЛОГИКА ВЫБОРА УСЛУГИ ---
-        let currentService = '';
-        let currentPrice = 0;
-
-        function selectService(element, name, price) {
-            // Снимаем выделение со всех
-            document.querySelectorAll('.price-card').forEach(card => card.classList.remove('selected'));
+        function selectService(name, price, element) {
+            // Убираем выделение со всех
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('selected');
+            });
             
             // Выделяем текущую
             element.classList.add('selected');
-            currentService = name;
-            currentPrice = price;
+            selectedService = name;
+            selectedPrice = price;
             
-            // Обновляем инпут
-            const input = document.getElementById('selected-service');
-            input.value = `${name} — ${price} BYN`;
-            
-            // Плавный скролл к форме
-            document.getElementById('order-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Показываем toast
+            showToast(`${name} — ${price} BYN выбрано`);
         }
 
+        // Заказ
+        function orderNow() {
+            if (!selectedService) {
+                showToast('Выберите услугу выше', true);
+                document.querySelector('.grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
 
-        // --- 4. ЛОГИКА ОТПРАВКИ (COPY + OPEN) ---
-        function showToast(message, isError = false) {
-            const container = document.getElementById('toast-container');
-            const toast = document.getElementById('toast-message');
+            const message = `Привет! Хочу заказать: ${selectedService} (${selectedPrice} BYN)`;
             
-            toast.innerHTML = isError ? `<span>⚠️</span> ${message}` : `<span>✓</span> ${message}`;
-            toast.className = isError ? 'toast error' : 'toast';
-            
-            container.classList.add('show');
+            // Копируем в буфер
+            navigator.clipboard.writeText(message).then(() => {
+                showToast('Текст скопирован! Вставьте в DM');
+                
+                // Открываем Instagram
+                setTimeout(() => {
+                    window.open('https://ig.me/m/pika_raw', '_blank');
+                }, 1000);
+            }).catch(() => {
+                window.open('https://ig.me/m/pika_raw', '_blank');
+            });
+        }
+
+        // Toast уведомления
+        function showToast(text, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = text;
+            toast.style.background = isError ? '#ef4444' : 'var(--text-primary)';
+            toast.style.color = isError ? '#fff' : 'var(--bg)';
+            toast.classList.add('show');
             
             setTimeout(() => {
-                container.classList.remove('show');
-            }, 3500);
-        }
-
-        async function sendOrder() {
-            const name = document.getElementById('client-name').value.trim();
-            const contact = document.getElementById('client-contact').value.trim();
-            const notes = document.getElementById('client-notes').value.trim();
-            const serviceInput = document.getElementById('selected-service').value;
-
-            // Валидация без раздражающих alert()
-            if (!currentService) {
-                showToast('Пожалуйста, выберите услугу из списка выше', true);
-                document.querySelector('.pricing-grid').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-            if (!name) {
-                showToast('Укажите ваше имя или никнейм', true);
-                document.getElementById('client-name').focus();
-                return;
-            }
-
-            // Формируем красивое сообщение
-            const message = `Привет, Pika! 👋\n\nХочу заказать дизайн:\n📌 *${currentService}* (${currentPrice} BYN)\n👤 Имя: ${name}\n📱 Связь: ${contact || 'Не указано'}\n💬 Пожелания: ${notes || 'Нет'}\n\nЖду обратной связи!`;
-
-            try {
-                // Копируем в буфер
-                await navigator.clipboard.writeText(message);
-                
-                // Показываем успешное уведомление
-                showToast('Сообщение скопировано! Вставьте его в DM (Ctrl+V)');
-                
-                // Открываем Instagram DM с небольшой задержкой для восприятия
-                setTimeout(() => {
-                    // Используем ig.me для гарантированного открытия приложения Instagram
-                    window.open('https://ig.me/m/pika_raw', '_blank');
-                }, 1200);
-
-            } catch (err) {
-                console.error('Clipboard error:', err);
-                showToast('Не удалось скопировать текст. Напишите мне вручную: @pika_raw', true);
-                setTimeout(() => {
-                    window.open('https://ig.me/m/pika_raw', '_blank');
-                }, 1500);
-            }
+                toast.classList.remove('show');
+            }, 2500);
         }
     </script>
 </body>
